@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std;
 
-void print(int b[8][8])
+void PrintSolution(int b[8][8], int solution)
 {
-    cout << "Execution complete" << endl;
+    cout << "Solution #" << solution << endl;
     for (int x = 0; x < 8; x++)
     {
         for (int y = 0; y < 8; y++)
@@ -18,6 +18,8 @@ int main()
 {
     int b[8][8] = {};
     int r = 0, c = 0;
+    int solution = 0;
+
 check_queen:
     for (int i = 0; i <= c; i++)
     {
@@ -64,9 +66,15 @@ increment_column:
     c++;
     if (c == 8)
     {
-        print(b);
+        solution++;
+        PrintSolution(b, solution);
         return 0;
     }
     r = 0;
     goto check_queen;
-}
+execution_complete:
+    if(c == 0 & r > 7)
+    {
+        cout << "Execution Complete" << endl;
+    }
+} 

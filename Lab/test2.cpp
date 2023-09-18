@@ -14,7 +14,7 @@ void printArray(int arr[], int capacity)
     }
     cout << endl;
 }
-//
+//  
 
 bool ok(int board[][8], int c)
 {
