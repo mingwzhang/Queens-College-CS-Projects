@@ -17,8 +17,20 @@ void PrintSolution(int b[8][8], int solution)
 int main()
 {
     int b[8][8] = {};
-    int r = 0, c = 0;
+    int r = 0, c = 7;
     int solution = 0;
+
+/**/
+    b[0][0] = 1;
+    b[4][1] = 1;
+    b[7][2] = 1;
+    b[5][3] = 1;
+    b[2][4] = 1;
+    b[6][5] = 1;
+    b[1][6] = 1;
+    b[3][7] = 1;
+
+    goto increment_column;
 
 check_queen:
     for (int i = 0; i <= c; i++)
@@ -47,7 +59,12 @@ check_queen:
     
 backtrack:
     c--;
-    r = -1;
+    if(c == -1)
+    {
+        goto execution_complete;
+    }
+    r = 0;
+
     while (b[r][c] != 1)
     {
         r++;
@@ -68,13 +85,11 @@ increment_column:
     {
         solution++;
         PrintSolution(b, solution);
-        return 0;
+        goto backtrack;
     }
     r = 0;
     goto check_queen;
 execution_complete:
-    if(c == 0 & r > 7)
-    {
         cout << "Execution Complete" << endl;
-    }
+        return 0;
 } 
