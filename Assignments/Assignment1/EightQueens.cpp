@@ -79,6 +79,7 @@ increment_column:
     r = 0;
     goto check_queen;
 execution_complete:
+        cout << "" << endl;
         cout << "Execution Complete" << endl;
         return 0;
 } 
