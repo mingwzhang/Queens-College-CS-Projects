@@ -17,20 +17,9 @@ void PrintSolution(int b[8][8], int solution)
 int main()
 {
     int b[8][8] = {};
-    int r = 0, c = 7;
+    int r = 0, c = 0;
     int solution = 0;
 
-/**/
-    b[0][0] = 1;
-    b[4][1] = 1;
-    b[7][2] = 1;
-    b[5][3] = 1;
-    b[2][4] = 1;
-    b[6][5] = 1;
-    b[1][6] = 1;
-    b[3][7] = 1;
-
-    goto increment_column;
 
 check_queen:
     for (int i = 0; i <= c; i++)
