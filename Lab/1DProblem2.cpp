@@ -3,7 +3,7 @@ using namespace std;
 
 int Problem1(int n)
 {
-    int arr[n] = {};
+    int arr[5] = {};
     int last = 1;
     for (int x = n; x >= 0; x--)
     {
