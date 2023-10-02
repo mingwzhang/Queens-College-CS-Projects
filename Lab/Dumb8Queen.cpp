@@ -1,9 +1,8 @@
 #include <iostream>
 using namespace std;
 
-bool ok (int q[8])
+bool ok (int q[8], int c)
 {
-    int c = 0;
 
     // Row Test
     for(int i = 0; i < c; i++)
@@ -30,10 +29,9 @@ bool ok (int q[8])
             //next row
         }
     }
-
 }
 
-}
+
 
 int PrintBoard(int q[8])
 {
@@ -58,9 +56,9 @@ int main()
 {
 
     int q[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    int c = 0;
-    int r = 0;
+    int col = 0;
     PrintBoard(q);
+
     for (int i0 = 0; i0 < 8; i0++)
         for (int i1 = 1; i1 < 8; i1++)
             for (int i2 = 2; i2 < 8; i2++)
@@ -79,7 +77,7 @@ int main()
                                     q[6] = i6;
                                     q[7] = i7;
 
-                                    if(ok(q))
+                                    if(ok(q, col))
                                     {
              //                           PrintBoard(q);
                                     }
