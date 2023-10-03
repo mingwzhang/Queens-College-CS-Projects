@@ -1,46 +1,35 @@
 #include <iostream>
 using namespace std;
 
-bool ok(int q[], int c)
+bool ok(int q[])
 {
-    for(int i=1; i < 8; i++)
+    for (int c = 7; c >= 0; c--)
     {
-        
-    }
-    // Row Test
-    for (int i = 0; i < c; i++)
-    {
-        if (q[i] == q[c])
+        // Up Diagonal, Down Diagonal, and Row Test
+        for (int i = 0; i < c; i++)
         {
-            return false;
-        }
-    }
-    // Up Diagonal Test
-    for (int i = 0; i < c; i++)
-    {
-        if ((c - i) == q[c] - q[i])
-        {
-            return false;
-        }
-    }
-    // Down Diagonal Test
-    for (int i = 0; i < c; i++)
-    {
-        if ((c - i) == q[i] - q[c])
-        {
-            return false;
+            if ((c - i) == q[c] - q[i] || (c - i) == q[i] - q[c] || q[i] == q[c])
+            {
+                return false;
+            }
         }
     }
     return true;
 }
 
-void print(int q[]) {
+void print(int q[])
+{
     cout << endl;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            if (q[i] == j) {
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (q[i] == j)
+            {
                 cout << "1 ";
-            } else {
+            }
+            else
+            {
                 cout << "0 ";
             }
         }
@@ -53,7 +42,7 @@ int main()
 {
 
     int q[8] = {0};
-
+    int solCount = 0;
     for (int i0 = 0; i0 < 8; i0++)
         for (int i1 = 0; i1 < 8; i1++)
             for (int i2 = 0; i2 < 8; i2++)
@@ -72,8 +61,10 @@ int main()
                                     q[6] = i6;
                                     q[7] = i7;
 
-                                    if(ok(q, i0))
+                                    if (ok(q))
                                     {
+                                        solCount++;
+                                        cout << "Solution #" << solCount << endl;
                                         print(q);
                                     }
                                 }
