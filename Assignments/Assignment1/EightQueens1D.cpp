@@ -4,26 +4,10 @@ using namespace std;
 
 bool ok(int q[], int c)
 {
-    // Row Test
+    // Up Diagonal, Down Diagonal, and Row Test
     for (int i = 0; i < c; i++)
     {
-        if (q[i] == q[c])
-        {
-            return false;
-        }
-    }
-    // Up Diagonal Test
-    for (int i = 0; i < c; i++)
-    {
-        if ((c - i) == q[c] - q[i])
-        {
-            return false;
-        }
-    }
-    // Down Diagonal Test
-    for (int i = 0; i < c; i++)
-    {
-        if ((c - i) == q[i] - q[c])
+        if ((c - i) == q[c] - q[i] || (c - i) == q[i] - q[c]|| q[i] == q[c])
         {
             return false;
         }

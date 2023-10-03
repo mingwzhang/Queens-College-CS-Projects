@@ -1,72 +1,67 @@
 #include <iostream>
 using namespace std;
 
-bool ok (int q[8], int c)
+bool ok(int q[], int c)
 {
-
+    for(int i=1; i < 8; i++)
+    {
+        
+    }
     // Row Test
-    for(int i = 0; i < c; i++)
+    for (int i = 0; i < c; i++)
     {
-        if(q[i] == q[c])
+        if (q[i] == q[c])
         {
-            //next row
+            return false;
         }
     }
-
-    //Up Diagonal Test
-    for(int i = 0; i < c; i++)
+    // Up Diagonal Test
+    for (int i = 0; i < c; i++)
     {
-        if((c-i) == q[c] - q[i])
+        if ((c - i) == q[c] - q[i])
         {
-            //next row
+            return false;
         }
     }
-
-    //Down Diagonal Test
-    for (int i = 0; i<c; i++) {
-	    if ((c-i) == q[i] - q[c])
+    // Down Diagonal Test
+    for (int i = 0; i < c; i++)
+    {
+        if ((c - i) == q[i] - q[c])
         {
-            //next row
+            return false;
         }
     }
+    return true;
 }
 
-
-
-int PrintBoard(int q[8])
-{
-    int board[8][8] = {0};
-
-    for(int i = 0; i < 8; i++)
-    {
-        board[q[i]][i] = 1;
-    }
-
-    for(int i = 0; i < 8; i++)
-    {
-        for(int j = 0; j < 8; j++)
-        {
-            cout << board[i][j] << " ";
+void print(int q[]) {
+    cout << endl;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (q[i] == j) {
+                cout << "1 ";
+            } else {
+                cout << "0 ";
+            }
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 int main()
 {
 
-    int q[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    int col = 0;
-    PrintBoard(q);
+    int q[8] = {0};
 
     for (int i0 = 0; i0 < 8; i0++)
-        for (int i1 = 1; i1 < 8; i1++)
-            for (int i2 = 2; i2 < 8; i2++)
-                for (int i3 = 3; i3 < 8; i3++)
-                    for (int i4 = 4; i4 < 8; i4++)
-                        for (int i5 = 5; i5 < 8; i5++)
-                            for (int i6 = 6; i6 < 8; i6++)
-                                for (int i7 = 7; i7 < 8; i7++)
+        for (int i1 = 0; i1 < 8; i1++)
+            for (int i2 = 0; i2 < 8; i2++)
+                for (int i3 = 0; i3 < 8; i3++)
+                    for (int i4 = 0; i4 < 8; i4++)
+                        for (int i5 = 0; i5 < 8; i5++)
+                            for (int i6 = 0; i6 < 8; i6++)
+                                for (int i7 = 0; i7 < 8; i7++)
                                 {
                                     q[0] = i0;
                                     q[1] = i1;
@@ -77,9 +72,9 @@ int main()
                                     q[6] = i6;
                                     q[7] = i7;
 
-                                    if(ok(q, col))
+                                    if(ok(q, i0))
                                     {
-             //                           PrintBoard(q);
+                                        print(q);
                                     }
                                 }
 
