@@ -60,7 +60,7 @@ int main()
                                     q[5] = i5;
                                     q[6] = i6;
                                     q[7] = i7;
-
+                                    
                                     if (ok(q))
                                     {
                                         solCount++;
