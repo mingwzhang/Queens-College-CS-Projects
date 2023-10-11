@@ -5,14 +5,16 @@ using namespace std;
 // Returns true if the number written in square c is ok.
 bool ok(int q[], int c) {
 
-   static int adj[8][5] = { {-1},                // 0  Neighbor list for each square
-                            {0, -1},             // 1
-                            {0, 1, -1},          // 2  The cross with the squares labeled:
-                            {0, 2, -1},          // 3                  1 4
-                            {1, 2, -1},          // 4                0 2 5 7
-                            {1, 2, 3, 4, -1},    // 5                  3 6
-                            {2, 3, 5, -1},       // 6
-                            {4, 5, 6, -1}     }; // 7
+   static int adj[8][5] = {
+        {-1},
+        {0, -1},
+        {0, -1},
+        {0, 1, 2, -1},
+        {0, 1, 3, -1},
+        {1, 4, -1},
+        {2, 3, 4, -1},
+        {3, 4, 5, 6, -1},
+    }; // 7
 
    for (int i = 0; i < c; ++i) // If the number in square c has already been used, return false.
       if (q[i] == q[c])
