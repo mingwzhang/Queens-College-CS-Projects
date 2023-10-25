@@ -42,6 +42,8 @@ void print(int q[], int solutionCount)
     cout << endl;
 }
 
+
+
 int main()
 {
     int q[8] = {0};
