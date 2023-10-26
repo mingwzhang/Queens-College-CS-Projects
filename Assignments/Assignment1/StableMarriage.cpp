@@ -22,7 +22,6 @@ bool ok(int q[], int col)
     {
       return false;
     }
-
     if(mp[currentMan][newWoman] > mp[currentMan][currentWoman]  && wp[newWoman][currentMan] > wp[newWoman][newMan])
     {
       return false;
