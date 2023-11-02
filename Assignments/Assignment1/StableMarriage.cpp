@@ -3,7 +3,7 @@ using namespace std;
 
 bool ok(int q[], int col)
 {
-  int mp[3][3] = {{0, 2, 1},
+  int mp[3][3] = {{0, 2, 1},      // Means man 0 preference = woman 0 (0 - most prefer), woman 1 (2 - less prefer), woman 2 (1)
                   {0, 2, 1},
                   {1, 2, 0}};
 
@@ -22,11 +22,11 @@ bool ok(int q[], int col)
     {
       return false;
     }
-    if(mp[currentMan][newWoman] > mp[currentMan][currentWoman]  && wp[newWoman][currentMan] > wp[newWoman][newMan])
+    if(mp[currentMan][newWoman] < mp[currentMan][currentWoman]  && wp[newWoman][currentMan] < wp[newWoman][newMan])
     {
       return false;
     }
-    if(mp[newMan][currentWoman] > mp[newMan][newWoman]  && wp[currentWoman][newMan] > wp[currentWoman][currentMan])
+    if(mp[newMan][currentWoman] < mp[newMan][newWoman]  && wp[currentWoman][newMan] < wp[currentWoman][currentMan])
     {
       return false;
     }

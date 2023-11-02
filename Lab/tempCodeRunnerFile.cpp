@@ -1,1 +1,1 @@
-// Output: 2
+    int i; // 4 bytes

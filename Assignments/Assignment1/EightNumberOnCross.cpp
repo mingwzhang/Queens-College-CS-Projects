@@ -46,10 +46,9 @@ void print(int q[], int solutionCount)
 
 int main()
 {
-    int q[8] = {0};
+    int q[8] = {1};
     int index = 0;
     int solutionCount = 0;
-    q[0] = 1;
 
     while (index >= 0)
     {
