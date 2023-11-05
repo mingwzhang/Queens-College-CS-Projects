@@ -19,7 +19,6 @@ bool ok(int q[])
 
 void print(int q[])
 {
-    cout << endl;
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)

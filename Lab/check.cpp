@@ -5,9 +5,8 @@
 
     int main()
     {
-      int* p;
-      int i = 12;
-      p = &i;
+  
+      int i = -12;
 
-      cout << *p;
+      cout << abs(i);
     }
