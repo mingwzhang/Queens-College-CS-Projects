@@ -1,12 +1,10 @@
-   
-    #include <iostream>
-    #include <cmath>
-    using namespace std;
+#include <iostream>
+using namespace std;
 
-    int main()
-    {
-  
-      int i = -12;
 
-      cout << abs(i);
-    }
+int main() {
+    int i = 0;
+    while (i < 5)
+    cout << i;
+    return 0;
+}

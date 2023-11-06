@@ -35,5 +35,13 @@ int main()
 
     cout << b << endl; 
 
+
+    int y = 10;
+
+    int &x = y;
+
+    cout << y;
+
+
     return 0;
 }
