@@ -43,7 +43,7 @@ int main()
 
     while(col > -1)
     {
-        if(col == 8)
+        if(col > 7)
         {
             count++;
             Print(arr, count);
