@@ -1,10 +1,15 @@
 #include <iostream>
 using namespace std;
-#include <vector>
+
+int add(int x, int y)
+{
+    return x + y;
+}
 
 int main ()
-{
-
+{   
+    int (*a)(int, int) = add;
+    cout << a(123,65);
 
 
 
