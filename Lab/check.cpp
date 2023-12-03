@@ -16,5 +16,7 @@ int main() {
         t[0].pop_back();
        cout << "   " << arr[0] << "   " << arr[1] << "   "  << arr[2] << endl;
     }
+
+    int ar1[8][8];
    return 0;
 }
