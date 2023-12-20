@@ -2,12 +2,12 @@
 #include <cmath>
 using namespace std;
 
-bool ok(int q[], int c)
+bool ok(int b[], int c)
 {
     // Up Diagonal, Down Diagonal, and Row Test
     for (int i = 0; i < c; i++)
     {
-        if ((c - i) == q[c] - q[i] || (c - i) == q[i] - q[c]|| q[i] == q[c])
+        if ((c - i) == b[c] - b[i] || (c - i) == b[i] - b[c]|| b[i] == b[c])
         {
             return false;
         }

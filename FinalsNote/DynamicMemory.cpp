@@ -13,7 +13,7 @@ int main()
 
     string *psa2 = new string[10](); // initialize 10 blocks of empty string
 
-
+    
     
     pia2[0] = 8;
     pia2[1] = 2;
