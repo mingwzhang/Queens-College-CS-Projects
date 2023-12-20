@@ -11,8 +11,6 @@ int Fib(int i)
 
     for (int x = 2; x <= i; x++) {
         fib[x] = fib[x - 1] + fib[x - 2];
-        cout << endl;
-        cout << fib[x] << "?"<< endl;
     }
 
     return fib[i];
