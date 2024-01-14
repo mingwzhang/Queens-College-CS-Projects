@@ -47,6 +47,7 @@
         "largestin2darray": "cpp",
         "random": "cpp",
         "vector": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "unordered_set": "cpp"
     }
 }
