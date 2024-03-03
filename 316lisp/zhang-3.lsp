@@ -56,7 +56,4 @@
 
 ;;; Solution to Problem 9
 (defun SAFE-DIV (X Y)
-
-
-
-)
+    (and (and (numberp X) (numberp Y)) (not (zerop Y)) (/ X Y)))
