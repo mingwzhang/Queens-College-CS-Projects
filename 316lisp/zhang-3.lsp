@@ -51,8 +51,10 @@
 
 ;;; Solution to Problem 8
 (defun SAME-PARITY (X Y)
-    (and (and (integerp X) (integerp Y) 
-    (or (and (evenp X) (evenp Y)) (and (oddp X) (oddp Y))))))
+    (and 
+        (and (integerp X) (integerp Y) 
+             (or (and (evenp X) (evenp Y)) 
+                 (and (oddp X) (oddp Y))))))
 
 ;;; Solution to Problem 9
 (defun SAFE-DIV (X Y)
