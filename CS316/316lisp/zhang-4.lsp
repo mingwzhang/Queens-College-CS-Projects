@@ -27,10 +27,17 @@
         (INSERT (car L) (ISORT (cdr L)))))
 
 ;;; Solution to Problem 6
-(defun SPLIT-LIST)
-
+(defun SPLIT-LIST (L)
+    (if (null L) (list NIL NIL)
+        (let ((X (SPLIT-LIST (cdr L))))
+        (list (cons (car L) (cadr X)) (car X)))))
+    
 ;;; Solution to Problem 7
-(defun PARTITION)
+(defun PARTITION (L p)
+    (cond ((null L) (NIL NIL))
+        ((< p (cdr L)))
+    )
+)
 
 ;;; Solution to Problem 8
 ;;; Solution to Problem 9
