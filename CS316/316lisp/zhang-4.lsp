@@ -30,17 +30,32 @@
 (defun SPLIT-LIST (L)
     (if (null L) (list NIL NIL)
         (let ((X (SPLIT-LIST (cdr L))))
-        (list (cons (car L) (cadr X)) (car X)))))
+             (list (cons (car L) (cadr X)) (car X)))))
     
 ;;; Solution to Problem 7
 (defun PARTITION (L p)
-    (cond ((null L) (NIL NIL))
-        ((< p (cdr L)))
-    )
-)
+    (if (null L) (list NIL NIL)   
+        (let ((X (PARTITION (cdr L) p)))
+            (if (< (car L) p)
+                (list (cons (car L) (car X)) (cadr X))
+                (list (car X) (cons (car L) (cadr X)))))))
 
 ;;; Solution to Problem 8
+(defun POS (e L)
+    (cond ((endp L) 0)
+          ((equal e (car L)) 1)
+          (t (let ((X (pos e (cdr L))))
+                  (if (zerop X) 0 (+ X 1))))))
+
 ;;; Solution to Problem 9
+(defun SPLIT-NUMS (N)
+    (if (zerop N) (list '(0) NIL)
+        (let ((X (SPLIT-NUMS (- N 1))))
+             (if (evenp N)
+                (list (cons N (car X)) (cadr X))
+                (list (car X) (cons N (cadr X)))))))
+
+
 ;;; Solution to Problem 10
 ;;; Solution to Problem 11
 ;;; Solution to Problem 12
