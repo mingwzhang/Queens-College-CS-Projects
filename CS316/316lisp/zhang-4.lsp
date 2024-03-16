@@ -1,3 +1,5 @@
+;;; Zhang Mingwei
+
 ;;; Solution to Problem 1
 (defun SUM (L)
     (if (null L) 0
@@ -55,9 +57,26 @@
                 (list (cons N (car X)) (cadr X))
                 (list (car X) (cons N (cadr X)))))))
 
-
 ;;; Solution to Problem 10
-;;; Solution to Problem 11
-;;; Solution to Problem 12
-;;; Solution to Problem 13
+(defun SET-UNION (s1 s2)
+    (cond ((null s1) s2)
+          ((member (car s1) s2) (SET-UNION (cdr s1) s2)) 
+          (t (SET-UNION (cdr s1) (cons (car s1) s2)))))
 
+;;; Solution to Problem 11
+(defun SET-REMOVE (x s)
+    (cond ((null s) NIL)
+          ((equal x (car s)) (cdr s))
+          (t (cons (car s) (SET-REMOVE x (cdr s))))))
+
+;;; Solution to Problem 12
+(defun SET-EXCL-UNION (s1 s2)
+    (cond ((null s1) s2)
+          ((member (car s1) s2) (SET-EXCL-UNION (cdr s1) (SET-REMOVE (car s1) s2)))
+          (t (cons (car s1) (SET-EXCL-UNION (cdr s1) s2)))))
+
+;;; Solution to Problem 13
+(defun SINGLETONS (e)
+    (cond ((null e) NIL)
+          ((member (car e) (cdr e)) (SINGLETONS (SET-REMOVE (car e) (cdr e))))
+          (t (cons (car e) (SINGLETONS (cdr e))))))
