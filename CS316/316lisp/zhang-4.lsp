@@ -75,8 +75,8 @@
           ((member (car s1) s2) (SET-EXCL-UNION (cdr s1) (SET-REMOVE (car s1) s2)))
           (t (cons (car s1) (SET-EXCL-UNION (cdr s1) s2)))))
 
-;;; Solution to Problem 13
+;;; Solution to Problem 13  #corrected
 (defun SINGLETONS (e)
     (cond ((null e) NIL)
-          ((member (car e) (cdr e)) (SINGLETONS (SET-REMOVE (car e) (cdr e))))
+          ((member (car e) (cdr e)) (SET-REMOVE (car e) (SINGLETONS (cdr e))))
           (t (cons (car e) (SINGLETONS (cdr e))))))
