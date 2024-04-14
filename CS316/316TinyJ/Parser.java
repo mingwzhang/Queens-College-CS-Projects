@@ -108,6 +108,18 @@ public final class Parser {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        accept(IDENT);
+        while(getCurrentToken() == LBRACKET)
+        {
+            accept(LBRACKET);
+            accept(RBRACKET);
+        }
+
+        if(getCurrentToken() == EQ)
+        {
+            accept(EQ);
+            expr3();
+        }
 
         TJ.output.decTreeDepth();
     }
@@ -139,6 +151,24 @@ public final class Parser {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        accept(STATIC);
+
+        if(getCurrentToken() == VOID)
+        {
+            accept(VOID);
+        }else{
+            accept(INT);
+            while(getCurrentToken() == LBRACKET)
+            {
+                accept(LBRACKET);
+                accept(RBRACKET);
+            }
+        }
+        accept(IDENT); 
+        accept(LPAREN);
+        parameterDeclList();
+        accept(RPAREN);
+        compoundStmt(); 
 
         TJ.output.decTreeDepth();
     }
@@ -178,7 +208,11 @@ public final class Parser {
         TJ.output.incTreeDepth();
 
         /* ???????? */
-
+        accept(LBRACE); 
+        while (getCurrentToken() != RBRACE) {
+            statement();
+        }
+        accept(RBRACE);
         TJ.output.decTreeDepth();
     }
 
