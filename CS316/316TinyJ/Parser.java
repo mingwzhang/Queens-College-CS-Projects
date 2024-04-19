@@ -297,7 +297,6 @@ public final class Parser {
 
         accept(LPAREN);
         if (getCurrentToken() != RPAREN) {
-            nextToken();
             expr3();
             while (getCurrentToken() == COMMA) {
                 nextToken();
@@ -364,12 +363,14 @@ public final class Parser {
              * + getCurrentToken().symbolRepresentationForOutputFile);
              */
             case PRINT:
+                nextToken();
                 accept(LPAREN);
                 printArgument();
                 accept(RPAREN);
                 accept(SEMICOLON);
                 break;
             case PRINTLN:
+                nextToken();
                 accept(LPAREN);
                 if (getCurrentToken() != RPAREN) {
                     printArgument();
@@ -378,8 +379,7 @@ public final class Parser {
                 accept(SEMICOLON);
                 break;
             default:
-                throw new SourceFileErrorException("print() or println() expected, not "
-                        + getCurrentToken().symbolRepresentationForOutputFile);
+                throw new SourceFileErrorException("print() or println() expected, not " + getCurrentToken().symbolRepresentationForOutputFile);
         }
 
         TJ.output.decTreeDepth();
@@ -426,8 +426,8 @@ public final class Parser {
 
         /* ???????? */
         // <expr6> ::= <expr5> { & <expr5> }
-        acccept(expr5());
-        while(getCurrentToken == AND)
+        expr5();
+        while(getCurrentToken() == AND)
         {
             nextToken();
             expr5();
@@ -440,8 +440,14 @@ public final class Parser {
         TJ.output.incTreeDepth();
         /* ???????? */
         //<expr5> ::= <expr4> {(== | !=) <expr4> }
+        expr4();
+        while(getCurrentToken() == EQ || getCurrentToken() == NE)
+        {
+            nextToken();
+            expr4();
+        }
         
-
+        
         TJ.output.decTreeDepth();
     }
 
@@ -450,6 +456,20 @@ public final class Parser {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        //<expr4> ::= <expr3> [(> | < | >= | <=) <expr3> ]
+        expr3();
+        switch(getCurrentToken())
+        {
+            case GT:
+            case LT:
+            case GE:
+            case LE:
+                nextToken();
+                expr3();
+                break;
+            default:
+                throw new SourceFileErrorException("Error");
+        }
 
         TJ.output.decTreeDepth();
     }
@@ -459,6 +479,13 @@ public final class Parser {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        //<expr3> ::= <expr2> {(+ | -) <expr2> }
+        expr2();
+        while(getCurrentToken() == PLUS || getCurrentToken() == MINUS)
+        {
+            nextToken();
+            expr2();
+        }
 
         TJ.output.decTreeDepth();
     }
@@ -485,6 +512,7 @@ public final class Parser {
         TJ.output.printSymbol(NTexpr1);
         TJ.output.incTreeDepth();
 
+        // <expr1> ::= '(' <expr7> ')' | (+|-|!) <expr1> | UNSIGNEDINT | null | new int '[' <expr3> ']' { '[' ']' } | IDENTIFIER ( . nextInt '(' ')' | [<argumentList>]{'[' <expr3> ']'} )
         switch (getCurrentToken()) {
 
             /*
@@ -493,6 +521,53 @@ public final class Parser {
              * default: throw new SourceFileErrorException("Malformed expression");
              * 
              */
+            case LPAREN:
+                nextToken();
+                expr7();
+                accept(RPAREN);                    
+                break;
+            case PLUS:
+            case MINUS:
+            case NOT:
+                nextToken();
+                expr1();
+                break;
+            case UNSIGNEDINT:
+                nextToken();
+                break;
+            case NULL:
+                nextToken();
+                break;
+            case NEW:
+                nextToken();
+                accept(INT);
+                accept(LBRACKET);
+                expr3();
+                accept(RBRACKET);
+                while(getCurrentToken() == LBRACKET)
+                {
+                    nextToken();
+                    accept(RBRACKET);
+                }
+                break;
+            case IDENT:
+                if(getCurrentToken() == DOT)
+                {
+                    nextToken();
+                    accept(NEXTINT);
+                    accept(LPAREN);
+                    accept(RPAREN);
+                }else{
+                    argumentList();
+                    while(getCurrentToken() == LBRACKET)
+                    {
+                        nextToken();
+                        expr3();
+                        accept(RBRACKET);
+                    }
+                }
+                break;
+            default: throw new SourceFileErrorException("Malformed expression");
         }
 
         TJ.output.decTreeDepth();
