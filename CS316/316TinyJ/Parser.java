@@ -111,12 +111,12 @@ public final class Parser {
         // <singleVarDecl> ::= IDENTIFIER { '[' ']' } [ = <expr3> ]
         accept(IDENT);
         while (getCurrentToken() == LBRACKET) {
-            accept(LBRACKET);
+            nextToken();
             accept(RBRACKET);
         }
 
-        if (getCurrentToken() == EQ) {
-            accept(EQ);
+        if (getCurrentToken() == BECOMES) {
+            nextToken();
             expr3();
         }
 
@@ -152,8 +152,7 @@ public final class Parser {
         TJ.output.incTreeDepth();
 
         /* ???????? */
-        // <methodDecl> ::= static ( void | int {'[' ']'}) IDENTIFIER '('
-        // <parameterDeclList> ')' <compoundStmt>
+        // <methodDecl> ::= static ( void | int {'[' ']'}) IDENTIFIER '(' <parameterDeclList> ')' <compoundStmt>
         accept(STATIC);
 
         if (getCurrentToken() == VOID) {
@@ -267,11 +266,10 @@ public final class Parser {
         TJ.output.incTreeDepth();
 
         /* ???????? */
-        // <assignmentOrInvoc> ::= IDENTIFIER ( { '['<expr3>']' } = <expr3> ; |
-        // <argumentList> ; )
+        // <assignmentOrInvoc> ::= IDENTIFIER ( { '['<expr3>']' } = <expr3> ; | <argumentList> ; )
 
         accept(IDENT);
-        if (getCurrentToken() == LPAREN) {
+        if (getCurrentToken() != LPAREN) {
             while (getCurrentToken() == LBRACKET) {
                 nextToken();
                 expr3();
@@ -302,8 +300,8 @@ public final class Parser {
                 nextToken();
                 expr3();
             }
-            accept(RPAREN);
         }
+        accept(RPAREN);
 
         TJ.output.decTreeDepth();
     }
@@ -347,12 +345,11 @@ public final class Parser {
         TJ.output.printSymbol(NToutputStmt);
         TJ.output.incTreeDepth();
 
-        // <outputStmt> ::= System . out . ( print '(' <printArgument> ')' ;| println '(' [<printArgument>] ')' ;)
-
         accept(SYSTEM);
         accept(DOT);
         accept(OUT);
         accept(DOT);
+
 
         switch (getCurrentToken()) {
             /*
@@ -362,6 +359,7 @@ public final class Parser {
              * SourceFileErrorException("print() or println() expected, not "
              * + getCurrentToken().symbolRepresentationForOutputFile);
              */
+             // <outputStmt> ::= System . out . ( print '(' <printArgument> ')' ;| println '(' [<printArgument>] ')' ;)
             case PRINT:
                 nextToken();
                 accept(LPAREN);
@@ -391,13 +389,11 @@ public final class Parser {
 
         /* ???????? */
         // <printArgument> ::= CHARSTRING | <expr3>
-        switch (getCurrentToken()) {
-            case CHARSTRING:
-                nextToken();
-                break;
-            default:
-                expr3();
-                break;
+        if (getCurrentToken() == CHARSTRING)
+        {
+            nextToken();
+        }else{
+            expr3();
         }
         TJ.output.decTreeDepth();
     }
@@ -467,8 +463,6 @@ public final class Parser {
                 nextToken();
                 expr3();
                 break;
-            default:
-                throw new SourceFileErrorException("Error");
         }
 
         TJ.output.decTreeDepth();
@@ -512,7 +506,6 @@ public final class Parser {
         TJ.output.printSymbol(NTexpr1);
         TJ.output.incTreeDepth();
 
-        // <expr1> ::= '(' <expr7> ')' | (+|-|!) <expr1> | UNSIGNEDINT | null | new int '[' <expr3> ']' { '[' ']' } | IDENTIFIER ( . nextInt '(' ')' | [<argumentList>]{'[' <expr3> ']'} )
         switch (getCurrentToken()) {
 
             /*
@@ -521,13 +514,22 @@ public final class Parser {
              * default: throw new SourceFileErrorException("Malformed expression");
              * 
              */
+
+            // <expr1> ::= '(' <expr7> ')' | (+|-|!) <expr1> | UNSIGNEDINT | null | new int '[' <expr3> ']' { '[' ']' } | IDENTIFIER ( . nextInt '(' ')' | [<argumentList>]{'[' <expr3> ']'} )
+
             case LPAREN:
                 nextToken();
                 expr7();
                 accept(RPAREN);                    
                 break;
             case PLUS:
+                nextToken();
+                expr1();
+                break;
             case MINUS:
+                nextToken();
+                expr1();
+                break;
             case NOT:
                 nextToken();
                 expr1();
@@ -551,6 +553,7 @@ public final class Parser {
                 }
                 break;
             case IDENT:
+                accept(IDENT);
                 if(getCurrentToken() == DOT)
                 {
                     nextToken();
@@ -558,7 +561,9 @@ public final class Parser {
                     accept(LPAREN);
                     accept(RPAREN);
                 }else{
-                    argumentList();
+                    if (getCurrentToken() == LPAREN) {
+                        argumentList();
+                    }
                     while(getCurrentToken() == LBRACKET)
                     {
                         nextToken();
