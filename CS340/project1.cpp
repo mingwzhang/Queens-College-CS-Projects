@@ -4,6 +4,8 @@ using namespace std;
 #include <iomanip>
 #include <ctime>
 #include <algorithm>
+#include <climits>
+#include <queue>
 
 class Job
 {
@@ -83,23 +85,23 @@ void printTable(vector<Job> &jobs, float averageTurnAround, float throughput)
 }
 
 // FIFO
-void fifoScheduling(vector<Job> &job)
+void fifoScheduling(vector<Job> &jobs)
 {
     int totalTurnaround = 0;
     int totalExitTime = 0;
 
     float averageTurnaround = 0;
     float throughput = 0;
-    
-    sort(job.begin(), job.end(), [](const Job &a, const Job &b)
+
+    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
          { return a.getArrTime() < b.getArrTime(); });
 
-    for (int i = 0; i < job.size(); ++i)
+    for (int i = 0; i < jobs.size(); ++i)
     {
-        job[i].setPriority(job.size() - i);
+        jobs[i].setPriority(jobs.size() - i);
     }
 
-    for (auto &j : job)
+    for (auto &j : jobs)
     {
         j.setExitTime(j.getArrTime() + j.getCpuBurst());
 
@@ -113,33 +115,35 @@ void fifoScheduling(vector<Job> &job)
     averageTurnaround = totalTurnaround / 5.0;
     throughput = 5.0 / totalExitTime;
     cout << "FIFO Scheduling Results:" << endl;
-    printTable(job, averageTurnaround, throughput);
+    printTable(jobs, averageTurnaround, throughput);
 }
 
 // Shortest Job First Algorithm (non-preemptive)
-void sjfNonPreemptiveScheduling(vector<Job> &job)
+void sjfNonPreemptiveScheduling(vector<Job> &jobs)
 {
     float averageTurnaround = 0;
     float throughput = 0;
 
-    sort(job.begin(), job.end(), [](const Job &a, const Job &b)
+    int totalTurnaround = 0;
+    int totalExitTime = 0;
+    int currentTime = 0;
+    int waitingTIme = 0;
+
+    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
          {
              if (a.getCpuBurst() == b.getCpuBurst())
              {
                  return a.getArrTime() < b.getArrTime(); 
              }
              return a.getCpuBurst() < b.getCpuBurst(); });
-    for (int i = 0; i < job.size(); ++i)
+    for (int i = 0; i < jobs.size(); ++i)
     {
-        job[i].setPriority(job.size() - i);
+        jobs[i].setPriority(jobs.size() - i);
     }
-    int totalTurnaround = 0;
-    int totalExitTime = 0;
-    int currentTime = 0;
-    int waitingTIme = 0;
-    for (auto &j : job)
+
+    for (auto &j : jobs)
     {
-        if(j.getPriority() < 5)
+        if (j.getPriority() < 5)
         {
             waitingTIme = currentTime - j.getArrTime();
         }
@@ -152,31 +156,206 @@ void sjfNonPreemptiveScheduling(vector<Job> &job)
 
         totalExitTime += j.getExitTime();
     }
-    averageTurnaround = static_cast<float>(totalTurnaround) / job.size();
-    throughput = static_cast<float>(job.size()) / totalExitTime;
+    averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
+    throughput = static_cast<float>(jobs.size()) / totalExitTime;
 
     cout << "SJF Scheduling Results:" << endl;
-    printTable(job, averageTurnaround, throughput);
+    printTable(jobs, averageTurnaround, throughput);
 }
 
-// Shortest Remaining Job Algorithm (preemptive)
-void sjfPreemptiveScheduling()
+// Shortest Remaining Time Algorithm (preemptive)
+void srtScheduling(vector<Job> &jobs)
 {
+    float averageTurnaround = 0;
+    float throughput = 0;
+
+    int totalTurnaround = 0;
+    int totalExitTime = 0;
+    int currentTime = 0;
+
+    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b) {
+        return a.getArrTime() < b.getArrTime();
+    });
+
+    for (auto &j : jobs) {
+        j.setRemainingTime(j.getCpuBurst());
+    }
+
+    int completedJobs = 0;
+    int idx = 0; 
+
+    while (completedJobs < jobs.size()) {
+        int shortestRemainingTime = INT_MAX; 
+        int shortestIdx = -1;
+
+        for (int i = 0; i < jobs.size(); ++i) {
+            if (jobs[i].getArrTime() <= currentTime && jobs[i].getRemainingTime() < shortestRemainingTime && jobs[i].getRemainingTime() > 0) {
+                shortestRemainingTime = jobs[i].getRemainingTime();
+                shortestIdx = i;
+            }
+        }
+
+        if (shortestIdx == -1) {
+            currentTime++;
+            continue;
+        }
+
+        jobs[shortestIdx].setRemainingTime(jobs[shortestIdx].getRemainingTime() - 1);
+        currentTime++;
+
+        if (jobs[shortestIdx].getRemainingTime() == 0) {
+            completedJobs++;
+            jobs[shortestIdx].setExitTime(currentTime);
+            int turnaroundTime = jobs[shortestIdx].getExitTime() - jobs[shortestIdx].getArrTime();
+            jobs[shortestIdx].setTurnAroundTime(turnaroundTime);
+            totalTurnaround += turnaroundTime;
+            totalExitTime += jobs[shortestIdx].getExitTime();
+        }
+    }
+
+    averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
+    throughput = static_cast<float>(jobs.size()) / totalExitTime;
+
+    cout << "Shortest Remaining Time (SRT) Scheduling Results:" << endl;
+    printTable(jobs, averageTurnaround, throughput);
 }
+
 
 // Highest Priority Algorithm (assigned)
-void highestPriorityScheduling()
+void highestPriorityScheduling(vector<Job> &jobs)
 {
+    float averageTurnaround = 0;
+    float throughput = 0;
+
+    int totalTurnaround = 0;
+    int totalExitTime = 0;
+    int currentTime = 0;
+
+    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b) {
+        return a.getArrTime() < b.getArrTime();
+    });
+
+    for (auto &j : jobs) {
+        j.setRemainingTime(j.getCpuBurst());
+    }
+
+    int completedJobs = 0;
+
+    while (completedJobs < jobs.size()) {
+        int highestPriorityIdx = -1;
+        int highestPriority = INT_MAX;
+
+        for (int i = 0; i < jobs.size(); ++i) {
+            if (jobs[i].getArrTime() <= currentTime && jobs[i].getPriority() < highestPriority && jobs[i].getRemainingTime() > 0) {
+                highestPriority = jobs[i].getPriority();
+                highestPriorityIdx = i;
+            }
+        }
+
+        if (highestPriorityIdx == -1) {
+            currentTime++;
+            continue;
+        }
+
+        jobs[highestPriorityIdx].setRemainingTime(jobs[highestPriorityIdx].getRemainingTime() - 1);
+        currentTime++;
+
+        if (jobs[highestPriorityIdx].getRemainingTime() == 0) {
+            completedJobs++;
+            jobs[highestPriorityIdx].setExitTime(currentTime);
+            int turnaroundTime = jobs[highestPriorityIdx].getExitTime() - jobs[highestPriorityIdx].getArrTime();
+            jobs[highestPriorityIdx].setTurnAroundTime(turnaroundTime);
+            totalTurnaround += turnaroundTime;
+            totalExitTime += jobs[highestPriorityIdx].getExitTime();
+        }
+    }
+
+    averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
+    throughput = static_cast<float>(jobs.size()) / totalExitTime;
+
+    cout << "Highest Priority Scheduling Results:" << endl;
+    printTable(jobs, averageTurnaround, throughput);
 }
 
-// Round-Robin: with context switch
-void rrWithContextSwitch()
-{
+void rrSchedulingWithContextSwitch(vector<Job>& jobs, int timeQuantum) {
+    int currentTime = 0;
+    int totalTurnaround = 0;
+    int totalExitTime = 0;
+    int completedJobs = 0;
+
+    queue<Job> jobQueue;
+
+    while (completedJobs < jobs.size()) {
+        for (auto& job : jobs) {
+            if (job.getArrTime() <= currentTime && job.getRemainingTime() > 0) {
+                jobQueue.push(job);
+            }
+        }
+
+        if (!jobQueue.empty()) {
+            Job currentJob = jobQueue.front();
+            jobQueue.pop();
+
+            int executionTime = min(timeQuantum, currentJob.getRemainingTime());
+            currentJob.setRemainingTime(currentJob.getRemainingTime() - executionTime);
+            currentTime += executionTime;
+
+            if (currentJob.getRemainingTime() > 0) {
+                jobQueue.push(currentJob);
+            } else {
+                currentJob.setExitTime(currentTime);
+                int turnaroundTime = currentJob.getExitTime() - currentJob.getArrTime();
+                currentJob.setTurnAroundTime(turnaroundTime);
+                totalTurnaround += turnaroundTime;
+                totalExitTime += currentJob.getExitTime();
+                completedJobs++;
+            }
+        } else {
+            currentTime++;
+        }
+    }
+
+    float averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
+    float throughput = static_cast<float>(jobs.size()) / totalExitTime;
+
+    cout << "Round-Robin Scheduling (with Context Switch) Results:" << endl;
+    printTable(jobs, averageTurnaround, throughput);
 }
 
-// Round-Robin: without context switch
-void rrWithoutContextSwitch()
-{
+
+void rrSchedulingWithoutContextSwitch(vector<Job>& jobs, int timeQuantum) {
+    int currentTime = 0;
+    int totalTurnaround = 0;
+    int totalExitTime = 0;
+    int completedJobs = 0;
+    int nextJobIndex = 0;
+
+    while (completedJobs < jobs.size()) {
+        Job& currentJob = jobs[nextJobIndex];
+
+        if (currentJob.getArrTime() <= currentTime && currentJob.getRemainingTime() > 0) {
+            int executionTime = min(timeQuantum, currentJob.getRemainingTime());
+            currentJob.setRemainingTime(currentJob.getRemainingTime() - executionTime);
+            currentTime += executionTime;
+
+            if (currentJob.getRemainingTime() == 0) {
+                currentJob.setExitTime(currentTime);
+                int turnaroundTime = currentJob.getExitTime() - currentJob.getArrTime();
+                currentJob.setTurnAroundTime(turnaroundTime);
+                totalTurnaround += turnaroundTime;
+                totalExitTime += currentJob.getExitTime();
+                completedJobs++;
+            }
+        } else {
+            currentTime++;
+        }
+        nextJobIndex = (nextJobIndex + 1) % jobs.size(); 
+    }
+    float averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
+    float throughput = static_cast<float>(jobs.size()) / totalExitTime;
+
+    cout << "Round-Robin Scheduling (without Context Switch) Results:" << endl;
+    printTable(jobs, averageTurnaround, throughput);
 }
 
 void displayResult()
@@ -187,6 +366,7 @@ void displayResult()
     int cpuBurst;
     int priority;
     vector<Job> job;
+    int timeQuantum = 5;    
 
     for (int x = 1; x <= 5; x++)
     {
@@ -197,10 +377,12 @@ void displayResult()
         job.push_back(j);
     }
 
-    cout << endl<< endl;
-    
     fifoScheduling(job);
     sjfNonPreemptiveScheduling(job);
+    srtScheduling(job);
+    highestPriorityScheduling(job);
+    rrSchedulingWithContextSwitch(job, timeQuantum);
+    rrSchedulingWithoutContextSwitch(job, timeQuantum);
 }
 
 int main()

@@ -66,6 +66,8 @@
     "iomanip": "cpp",
     "array": "cpp",
     "unordered_map": "cpp",
-    "initializer_list": "cpp"
+    "initializer_list": "cpp",
+    "utility": "cpp",
+    "climits": "cpp"
   }
 }
