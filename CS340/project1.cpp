@@ -3,6 +3,7 @@ using namespace std;
 #include <vector>
 #include <iomanip>
 #include <ctime>
+#include <algorithm>
 
 class Job
 {
@@ -38,13 +39,13 @@ public:
     }
 
     int CompareTo(Job job1, Job job2) { return job1.arrTime < job2.arrTime; } 
-    int CompareRemainingTIme(Job job1, Job job2) { return job1.remainingTime < job2.remainingTime; }
-    void calcuateTurnAroundTime(){ exitTime - arrTime; }
+    bool CompareRemainingTIme(Job job1, Job job2) { return job1.remainingTime < job2.remainingTime; }
+
 
     int getArrTime() { return this->arrTime; }
     void setArrTime(int arrTime) { this->arrTime = arrTime; }
 
-    int getCpuBurst() { return this->cpuBurst; }
+    int getCpuBurst() const { return this->cpuBurst; }
     void setCpuBurst(int cpuBurst) { this->cpuBurst = cpuBurst; }
 
     int getPriority() { return this->priority; }
@@ -60,7 +61,7 @@ public:
     void setRemainingTime(int remainingTime) { this->remainingTime = remainingTime; }
 };
 
-void printTable(vector<Job> & jobs)
+void printTable(vector<Job> & jobs, float averageTurnAround, float throughput)
 {
     cout << setw (5) << "Job #"  << " | " << setw (15) << "Arrival Time"  << " | " << setw (15) 
          << "CPU Burst"  << " | " << setw (15) << "Priority"  << " | " << setw (15) << "Exit Time"  << " | " << setw (15) 
@@ -68,31 +69,66 @@ void printTable(vector<Job> & jobs)
     for (int i = 0; i < jobs.size(); ++i) {
         jobs[i].ToString(i + 1);
     }
+    cout << endl;
+    cout << "Average Turnaround: " << averageTurnAround << endl;
+    cout << "Throughput: " << throughput << endl;
+    cout << endl;
 }
 
 // FIFO
-void fifoScheduling(vector<Job>& jobs)
+void fifoScheduling(vector<Job>& job)
 {
-    int currentTime = 0;
-    int turnAroundValue;
-    int turnAroundResult;
+    int turnAroundValue = 0;
+    int totalTurnAround = 0;
+    int totalExitTime = 0;
 
-    for(auto& job: jobs)
+    float averageTurnAround = 0;
+    float throughput = 0;
+
+    for(auto& j: job)
     {
-        job.setExitTime(currentTime + job.getCpuBurst());
-        currentTime = job.getExitTime();
+        j.setExitTime(j.getArrTime() + j.getCpuBurst());
         
-        turnAroundValue = job.getExitTime() - job.getArrTime();
-        turnAroundResult = turnAroundValue > 0 ? turnAroundValue: 0;
-        job.setTurnAroundTime(turnAroundResult);
+        turnAroundValue = (j.getExitTime() - j.getArrTime()) > 0 ? (j.getExitTime() - j.getArrTime()): 0;
+        j.setTurnAroundTime(turnAroundValue);
+        totalTurnAround += j.getTurnAroundTime();
+
+        totalExitTime += j.getExitTime();
     }
+
+    averageTurnAround = totalTurnAround / 25.0;
+    throughput = 25.0 / totalExitTime;
     cout << "FIFO Scheduling Results:" << endl;
-    printTable(jobs);
+    printTable(job, averageTurnAround, throughput);
 }
 
 // Shortest Job First Algorithm (non-preemptive)
-void sjfNonPreemptiveScheduling()
+void sjfNonPreemptiveScheduling(vector<Job>& job)
 {
+    int currentTime = 0;
+    int totalTurnAround = 0;
+    float averageTurnAround = 0;
+    float throughput = 0;
+
+    sort(job.begin(), job.end(), [](const Job& a, const Job& b) {
+        return a.getCpuBurst() < b.getCpuBurst();
+    });
+
+    for (int i = 0; i < job.size(); ++i) {
+        Job& currentJob = job[i];
+        currentJob.setExitTime(currentTime + currentJob.getCpuBurst());
+        int turnAroundTime = currentJob.getExitTime() - currentJob.getArrTime();
+        currentJob.setTurnAroundTime(turnAroundTime);
+        currentTime = currentJob.getExitTime();
+        currentJob.setRemainingTime(0); 
+        currentJob.ToString(i + 1);
+        totalTurnAround += turnAroundTime;
+    }
+    averageTurnAround = totalTurnAround / static_cast<float>(job.size());
+    throughput = static_cast<float>(job.size()) / currentTime;
+
+    cout << "SJF Scheduling Results:" << endl;
+    printTable(job, averageTurnAround, throughput);
 }
 
 // Shortest Remaining Job Algorithm (preemptive)
@@ -120,7 +156,7 @@ void displayResult()
     int arrTime;
     int cpuBurst;
     int priority;
-    vector<Job> jobs;
+    vector<Job> job;
 
     for (int x = 1; x <= 25; x++)
     {
@@ -128,16 +164,16 @@ void displayResult()
         cpuBurst = (rand() % 14) + 2;
         priority = (rand() % 5) + 1;
         Job j(arrTime, cpuBurst, priority);
-        jobs.push_back(j);
+        job.push_back(j);
     }
     
     cout << endl << endl;
-    fifoScheduling(jobs);
+    fifoScheduling(job);
+    sjfNonPreemptiveScheduling(job);
 }
 
 int main()
 {
     displayResult();
-    srand(time(0));
     return 0;
 }
