@@ -84,11 +84,11 @@ void printTable(vector<Job> &jobs, float averageTurnAround, float throughput)
     cout << endl;
 }
 
-// FIFO
+// FIFO 
 void fifoScheduling(vector<Job> &jobs)
 {
     int totalTurnaround = 0;
-    int totalRemainingTime = 0; // Track total remaining time for all jobs
+    int totalRemainingTime = 0; 
 
     float averageTurnaround = 0;
     float throughput = 0;
@@ -115,7 +115,6 @@ void fifoScheduling(vector<Job> &jobs)
         int turnaroundTime = jobs[i].getExitTime() - jobs[i].getArrTime();
         jobs[i].setTurnAroundTime(turnaroundTime);
 
-        // Calculate remaining time as the difference between turnaround time and CPU burst time
         int remainingTime = turnaroundTime - jobs[i].getCpuBurst();
         jobs[i].setRemainingTime(remainingTime);
         totalRemainingTime += remainingTime;
@@ -130,7 +129,7 @@ void fifoScheduling(vector<Job> &jobs)
     printTable(jobs, averageTurnaround, throughput);
 }
 
-// Shortest Job First Algorithm (non-preemptive)
+// Shortest Job First Algorithm 
 void sjfNonPreemptiveScheduling(vector<Job> &jobs)
 {
     float averageTurnaround = 0.0;
@@ -175,7 +174,7 @@ void sjfNonPreemptiveScheduling(vector<Job> &jobs)
     printTable(jobs, averageTurnaround, throughput);
 }
 
-// Shortest Remaining Time Algorithm
+// Shortest Remaining Job Algorithm 
 void srtScheduling(vector<Job> &jobs)
 {
     int totalTurnaround = 0;
@@ -183,7 +182,6 @@ void srtScheduling(vector<Job> &jobs)
     int currentTime = 0;
     int completedJobs = 0;
 
-    // Copy remaining time of jobs to a separate vector
     vector<int> remainingTime(jobs.size());
     for (size_t i = 0; i < jobs.size(); ++i)
     {
@@ -210,11 +208,9 @@ void srtScheduling(vector<Job> &jobs)
             continue;
         }
 
-        // Execute the shortest remaining job for 1 time unit
         currentTime++;
         remainingTime[shortestRemainingIdx]--;
 
-        // Check if the job has completed
         if (remainingTime[shortestRemainingIdx] == 0)
         {
             completedJobs++;
@@ -226,7 +222,6 @@ void srtScheduling(vector<Job> &jobs)
         }
     }
 
-    // Update the remaining time attribute for jobs with non-zero remaining burst time
     for (size_t i = 0; i < jobs.size(); ++i)
     {
         if (remainingTime[i] != 0)
@@ -250,11 +245,9 @@ void highestPriorityScheduling(vector<Job> &jobs)
     int currentTime = 0;
     int completedJobs = 0;
 
-    // Sort jobs based on priority (higher priority first)
     sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
          { return a.getPriority() > b.getPriority(); });
 
-    // Copy remaining time of jobs to a separate vector
     vector<int> remainingTime(jobs.size());
     for (size_t i = 0; i < jobs.size(); ++i)
     {
@@ -263,7 +256,6 @@ void highestPriorityScheduling(vector<Job> &jobs)
 
     while (completedJobs < jobs.size())
     {
-        // Find the highest priority job that has arrived and hasn't completed
         int highestPriorityIdx = -1;
         int highestPriority = INT_MAX;
 
@@ -282,11 +274,9 @@ void highestPriorityScheduling(vector<Job> &jobs)
             continue;
         }
 
-        // Execute the highest priority job for 1 time unit
         currentTime++;
         remainingTime[highestPriorityIdx]--;
 
-        // Check if the job has completed
         if (remainingTime[highestPriorityIdx] == 0)
         {
             completedJobs++;
@@ -294,7 +284,6 @@ void highestPriorityScheduling(vector<Job> &jobs)
             int turnaroundTime = jobs[highestPriorityIdx].getExitTime() - jobs[highestPriorityIdx].getArrTime();
             jobs[highestPriorityIdx].setTurnAroundTime(turnaroundTime);
 
-            // Correct the remaining time calculation here
             int remainingTimeCorrection = turnaroundTime - jobs[highestPriorityIdx].getCpuBurst();
             jobs[highestPriorityIdx].setRemainingTime(remainingTimeCorrection);
 
@@ -303,7 +292,6 @@ void highestPriorityScheduling(vector<Job> &jobs)
         }
     }
 
-    // Calculate average turnaround and throughput
     float averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
     float throughput = static_cast<float>(jobs.size()) / totalExitTime;
 
@@ -311,51 +299,43 @@ void highestPriorityScheduling(vector<Job> &jobs)
     printTable(jobs, averageTurnaround, throughput);
 }
 
+
+// Round Robin Algorithm
 void rrScheduling(vector<Job> &jobs, int timeQuantum)
 {
     int currentTime = 0;
     int completedJobs = 0;
-    queue<int> jobQueue; // Queue to hold indices of jobs
-    int quantumCount = 0; // Counter to track time quantum usage
 
-    // Sort jobs based on arrival time initially
-    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b) {
-        return a.getArrTime() < b.getArrTime();
-    });
+    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
+         { return a.getArrTime() < b.getArrTime(); });
 
-    // Copy remaining time of jobs to a separate vector
     vector<int> remainingTime(jobs.size());
     for (size_t i = 0; i < jobs.size(); ++i)
     {
         remainingTime[i] = jobs[i].getCpuBurst();
     }
 
+    queue<int> readyQueue;
+
     while (completedJobs < jobs.size())
     {
-        bool jobExecuted = false; // Flag to track if a job was executed in this cycle
-
         for (size_t i = 0; i < jobs.size(); ++i)
         {
-            // Check if job has arrived and has remaining burst time
             if (jobs[i].getArrTime() <= currentTime && remainingTime[i] > 0)
             {
-                jobQueue.push(i); // Add job index to the queue
+                readyQueue.push(i);
             }
         }
 
-        if (!jobQueue.empty())
+        if (!readyQueue.empty())
         {
-            int currentJobIdx = jobQueue.front(); // Get the front job from the queue
-            jobQueue.pop(); // Remove the front job from the queue
+            int currentJobIdx = readyQueue.front();
+            readyQueue.pop();
 
-            // Execute the job for 1 time unit or until its remaining time is exhausted
-            int executeTime = min(timeQuantum, remainingTime[currentJobIdx]);
-            currentTime += executeTime;
-            remainingTime[currentJobIdx] -= executeTime;
-            quantumCount += executeTime;
-            jobExecuted = true; // Job was executed in this cycle
+            int executionTime = min(timeQuantum, remainingTime[currentJobIdx]);
+            currentTime += executionTime;
+            remainingTime[currentJobIdx] -= executionTime;
 
-            // Check if the job has completed
             if (remainingTime[currentJobIdx] == 0)
             {
                 completedJobs++;
@@ -363,43 +343,19 @@ void rrScheduling(vector<Job> &jobs, int timeQuantum)
                 int turnaroundTime = jobs[currentJobIdx].getExitTime() - jobs[currentJobIdx].getArrTime();
                 jobs[currentJobIdx].setTurnAroundTime(turnaroundTime);
 
-                // Correct the remaining time calculation here
                 int remainingTimeCorrection = turnaroundTime - jobs[currentJobIdx].getCpuBurst();
                 jobs[currentJobIdx].setRemainingTime(remainingTimeCorrection);
             }
             else
             {
-                // If the job is not completed, re-add it to the end of the queue
-                jobQueue.push(currentJobIdx);
+                readyQueue.push(currentJobIdx);
             }
         }
-
-        if (!jobExecuted)
+        else
         {
-            currentTime++; // Increment time if no job was executed in this cycle
+            currentTime++;
         }
-
-if (quantumCount == timeQuantum && !jobExecuted && !jobQueue.empty())
-{
-    int currentJobIdx = jobQueue.front(); // Get the front job from the queue
-    jobQueue.pop(); // Remove the front job from the queue
-    jobQueue.push(currentJobIdx); // Re-add the job to the end of the queue
-    quantumCount = 0; // Reset time quantum counter
-
-    // Update exit time of the re-added job considering its previous execution cycles
-    jobs[currentJobIdx].setExitTime(currentTime);
-    currentTime += remainingTime[currentJobIdx]; // Increment current time by remaining time of the job
-    remainingTime[currentJobIdx] = 0; // Set remaining time to 0 as the job completes
-    int turnaroundTime = jobs[currentJobIdx].getExitTime() - jobs[currentJobIdx].getArrTime();
-    jobs[currentJobIdx].setTurnAroundTime(turnaroundTime);
-    // Correct the remaining time calculation here
-    int remainingTimeCorrection = turnaroundTime - jobs[currentJobIdx].getCpuBurst();
-    jobs[currentJobIdx].setRemainingTime(remainingTimeCorrection);
-}
-
     }
-
-    // Calculate average turnaround and throughput
     int totalTurnaround = 0;
     int totalExitTime = 0;
     for (size_t i = 0; i < jobs.size(); ++i)
@@ -410,12 +366,12 @@ if (quantumCount == timeQuantum && !jobExecuted && !jobQueue.empty())
     float averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
     float throughput = static_cast<float>(jobs.size()) / totalExitTime;
 
-    cout << "Round Robin Scheduling Results:" << endl;
-    // Replace priority values with "-"
-    for (size_t i = 0; i < jobs.size(); ++i)
+    for (auto &job : jobs)
     {
-        jobs[i].setPriority(0); // Set priority to 0
+        job.setPriority(1);
     }
+    
+    cout << "Round Robin Scheduling Results (Time Quantum = " << timeQuantum<< "):" << endl;
     printTable(jobs, averageTurnaround, throughput);
 }
 
@@ -428,8 +384,8 @@ void displayResult()
     int arrTime;
     int cpuBurst;
     int priority;
-    //   int timeQuantum = (rand() % 2) + 1;
-    int timeQuantum = 2;
+    int timeQuantum = (rand() % 2) + 1;
+
     vector<Job> job;
 
     for (int x = 1; x <= 5; x++)
