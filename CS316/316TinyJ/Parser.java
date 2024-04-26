@@ -114,7 +114,6 @@ public final class Parser {
             nextToken();
             accept(RBRACKET);
         }
-
         if (getCurrentToken() == BECOMES) {
             nextToken();
             expr3();
@@ -215,6 +214,7 @@ public final class Parser {
             statement();
         }
         accept(RBRACE);
+        
         TJ.output.decTreeDepth();
     }
 

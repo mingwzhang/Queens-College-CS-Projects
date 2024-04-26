@@ -1,3 +1,4 @@
+// Mingwei Zhang
 using namespace std;
 #include <iostream>
 #include <vector>
@@ -6,6 +7,7 @@ using namespace std;
 #include <algorithm>
 #include <climits>
 #include <queue>
+
 
 class Job
 {
@@ -40,8 +42,14 @@ public:
              << endl;
     }
 
-    int CompareTo(Job job1, Job job2) { return job1.arrTime < job2.arrTime; }
-    bool CompareRemainingTIme(Job job1, Job job2) { return job1.remainingTime < job2.remainingTime; }
+    bool CompareTo(const Job &other) const
+    {
+        return this->arrTime < other.arrTime;
+    }
+    bool CompareRemainingTime(const Job &other) const
+    {
+        return this->remainingTime < other.remainingTime;
+    }
 
     int getArrTime() const { return this->arrTime; }
     void setArrTime(int arrTime) { this->arrTime = arrTime; }
@@ -84,17 +92,18 @@ void printTable(vector<Job> &jobs, float averageTurnAround, float throughput)
     cout << endl;
 }
 
-// FIFO 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// FIFO
 void fifoScheduling(vector<Job> &jobs)
 {
     int totalTurnaround = 0;
-    int totalRemainingTime = 0; 
+    int totalRemainingTime = 0;
 
     float averageTurnaround = 0;
     float throughput = 0;
 
     sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
-         { return a.getArrTime() < b.getArrTime(); });
+         { return a.CompareTo(b); });
 
     for (int i = 0; i < jobs.size(); ++i)
     {
@@ -129,7 +138,8 @@ void fifoScheduling(vector<Job> &jobs)
     printTable(jobs, averageTurnaround, throughput);
 }
 
-// Shortest Job First Algorithm 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Shortest Job First Algorithm
 void sjfNonPreemptiveScheduling(vector<Job> &jobs)
 {
     float averageTurnaround = 0.0;
@@ -142,11 +152,11 @@ void sjfNonPreemptiveScheduling(vector<Job> &jobs)
 
     sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
          {
-                if (a.getCpuBurst() == b.getCpuBurst())
-                {
-                    return a.getArrTime() < b.getArrTime(); 
-                }
-                return a.getCpuBurst() < b.getCpuBurst(); });
+        if (a.getCpuBurst() == b.getCpuBurst()) {
+            return a.CompareTo(b); 
+        }
+        return a.getCpuBurst() < b.getCpuBurst(); });
+
     for (int i = 0; i < jobs.size(); ++i)
     {
         jobs[i].setPriority(jobs.size() - i);
@@ -170,17 +180,21 @@ void sjfNonPreemptiveScheduling(vector<Job> &jobs)
     averageTurnaround = static_cast<float>(totalTurnaround) / jobs.size();
     throughput = static_cast<float>(jobs.size()) / totalExitTime;
 
-    cout << "SJF Scheduling Results:" << endl;
+    cout << "SJF (Non-preemptive) Scheduling Results:" << endl;
     printTable(jobs, averageTurnaround, throughput);
 }
 
-// Shortest Remaining Job Algorithm 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Shortest Remaining Job Algorithm (SRT)
 void srtScheduling(vector<Job> &jobs)
 {
     int totalTurnaround = 0;
     int totalExitTime = 0;
     int currentTime = 0;
     int completedJobs = 0;
+
+    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
+         { return a.CompareTo(b); });
 
     vector<int> remainingTime(jobs.size());
     for (size_t i = 0; i < jobs.size(); ++i)
@@ -192,10 +206,10 @@ void srtScheduling(vector<Job> &jobs)
     {
         int shortestRemainingIdx = -1;
         int shortestRemaining = INT_MAX;
-
         for (size_t i = 0; i < jobs.size(); ++i)
         {
-            if (jobs[i].getArrTime() <= currentTime && remainingTime[i] < shortestRemaining && remainingTime[i] > 0)
+            if (jobs[i].getArrTime() <= currentTime && remainingTime[i] > 0 &&
+                (shortestRemainingIdx == -1 || jobs[i].CompareRemainingTime(jobs[shortestRemainingIdx])))
             {
                 shortestRemaining = remainingTime[i];
                 shortestRemainingIdx = i;
@@ -209,24 +223,30 @@ void srtScheduling(vector<Job> &jobs)
         }
 
         currentTime++;
+
         remainingTime[shortestRemainingIdx]--;
 
         if (remainingTime[shortestRemainingIdx] == 0)
         {
             completedJobs++;
+
             jobs[shortestRemainingIdx].setExitTime(currentTime);
             int turnaroundTime = jobs[shortestRemainingIdx].getExitTime() - jobs[shortestRemainingIdx].getArrTime();
             jobs[shortestRemainingIdx].setTurnAroundTime(turnaroundTime);
+
+            int remainingTimeCorrection = turnaroundTime - jobs[shortestRemainingIdx].getCpuBurst();
+            jobs[shortestRemainingIdx].setRemainingTime(max(remainingTimeCorrection, 0));
+
             totalTurnaround += turnaroundTime;
             totalExitTime += jobs[shortestRemainingIdx].getExitTime();
         }
-    }
 
-    for (size_t i = 0; i < jobs.size(); ++i)
-    {
-        if (remainingTime[i] != 0)
+        for (size_t i = 0; i < jobs.size(); ++i)
         {
-            jobs[i].setRemainingTime(remainingTime[i]);
+            if (jobs[i].getArrTime() <= currentTime && remainingTime[i] > 0 && i != shortestRemainingIdx)
+            {
+                jobs[i].setRemainingTime(remainingTime[i]);
+            }
         }
     }
 
@@ -237,6 +257,7 @@ void srtScheduling(vector<Job> &jobs)
     printTable(jobs, averageTurnaround, throughput);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Highest Priority Algorithm
 void highestPriorityScheduling(vector<Job> &jobs)
 {
@@ -299,12 +320,15 @@ void highestPriorityScheduling(vector<Job> &jobs)
     printTable(jobs, averageTurnaround, throughput);
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Round Robin Algorithm
-void rrScheduling(vector<Job> &jobs, int timeQuantum)
+void rrScheduling(vector<Job> &jobs)
 {
     int currentTime = 0;
     int completedJobs = 0;
+
+    int timeQuantum = (rand() % 3) + 1;
+    int contextSwitch = (rand() % 2) + 1;
 
     sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b)
          { return a.getArrTime() < b.getArrTime(); });
@@ -332,7 +356,8 @@ void rrScheduling(vector<Job> &jobs, int timeQuantum)
             int currentJobIdx = readyQueue.front();
             readyQueue.pop();
 
-            int executionTime = min(timeQuantum, remainingTime[currentJobIdx]);
+            int executionTime = min(executionTime + contextSwitch, remainingTime[currentJobIdx]);
+
             currentTime += executionTime;
             remainingTime[currentJobIdx] -= executionTime;
 
@@ -370,12 +395,10 @@ void rrScheduling(vector<Job> &jobs, int timeQuantum)
     {
         job.setPriority(1);
     }
-    
-    cout << "Round Robin Scheduling Results (Time Quantum = " << timeQuantum<< "):" << endl;
+
+    cout << "Round Robin Scheduling Results (Time Quantum = " << timeQuantum << ", Context Switch = " << contextSwitch << "):" << endl;
     printTable(jobs, averageTurnaround, throughput);
 }
-
-
 
 void displayResult()
 {
@@ -384,11 +407,10 @@ void displayResult()
     int arrTime;
     int cpuBurst;
     int priority;
-    int timeQuantum = (rand() % 2) + 1;
 
     vector<Job> job;
 
-    for (int x = 1; x <= 5; x++)
+    for (int x = 1; x <= 25; x++)
     {
         arrTime = (rand() % 250) + 1;
         cpuBurst = (rand() % 14) + 2;
@@ -397,26 +419,27 @@ void displayResult()
         job.push_back(j);
     }
 
-
     fifoScheduling(job);
     sjfNonPreemptiveScheduling(job);
     srtScheduling(job);
     highestPriorityScheduling(job);
-    rrScheduling(job, timeQuantum);
+    rrScheduling(job);
 
-    for (int x = 0; x < 5; x++)
+/*
+    for (int x = 0; x < 25; x++)
     {
         cout << job[x].getArrTime() << " ";
     }
     cout << endl;
-    for (int x = 0; x < 5; x++)
+    for (int x = 0; x < 25; x++)
     {
         cout << job[x].getCpuBurst() << " ";
     }
+*/
 }
 
 int main()
 {
-    displayResult();    
+    displayResult();
     return 0;
 }
