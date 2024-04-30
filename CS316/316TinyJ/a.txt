@@ -1,3 +1,5 @@
+//Mingwei Zhang
+
 package TJasn;
 
 import static TJlexer.LexicalAnalyzer.getCurrentToken;
@@ -461,8 +463,8 @@ public final class ParserAndTranslator {
 
         String identName = LexicalAnalyzer.getCurrentSpelling();
 
-        accept(IDENT);
-        if (getCurrentToken() != LPAREN) {
+        accept(IDENT);                                      //DO NOT COPY OVER 482
+        if (getCurrentToken() != LPAREN) {                  //DO NOT COPY OVER 483
 
             VariableRec t = symTab.searchForVariable(identName);
             if (t == null)
@@ -471,34 +473,34 @@ public final class ParserAndTranslator {
                 throw new SourceFileErrorException("int variable expected");
 
             if (t instanceof LocalVariableRec) {
-                /* ???????? */
+                /* ???????? */                          //492
             } else {
-                /* ???????? */
+                /* ???????? */                          //495
             }
 
             int dim = 0;
 
-            while (getCurrentToken() == LBRACKET) {
+            while (getCurrentToken() == LBRACKET) {         //DO NOT COPY OVER 500
                 new LOADFROMADDRinstr();
-                nextToken();
-                expr3();
-                accept(RBRACKET);
+                nextToken();                                //DO NOT COPY OVER 502
+                expr3();                                    //DO NOT COPY OVER 503
+                accept(RBRACKET);                           //DO NOT COPY OVER 504
                 new ADDTOPTRinstr();
                 dim++;
-            }
+            }                                               //DO NOT COPY OVER  507
 
             if (dim > t.dimensionCount)
                 throw new SourceFileErrorException("Unexpected index(es)");
 
-            /* ???????? */
+            /* ???????? */                                      // line 511 copy 3 statements
 
-        }
+        }                                                       //DO NOT COPY OVER  513
 
-        else {
+        else {                                                  //DO NOT COPY OVER  515  
 
             MethodRec t = lookUpCalledMethod(identName, MethodRec.NOT_KNOWN);
 
-            argumentList(t);
+            argumentList(t);                                    //DO NOT COPY OVER  519
 
             CALLSTATMETHODinstr cInstr = new CALLSTATMETHODinstr(t.getStartAddr());
 
@@ -516,8 +518,8 @@ public final class ParserAndTranslator {
             else if (t.getType() != MethodRec.VOID)
                 new NOPorDISCARDVALUEinstr(false); // generate DISCARDVALUE instruction
 
-            accept(SEMICOLON);
-        }
+            accept(SEMICOLON);                              //DO NOT COPY OVER  537
+        }                                                   //DO NOT COPY OVER  538
 
         TJ.output.decTreeDepth();
     }
@@ -526,7 +528,7 @@ public final class ParserAndTranslator {
         TJ.output.printSymbol(NTargumentList);
         TJ.output.incTreeDepth();
 
-        /* ???????? */
+        /* ???????? */                          // 549
 
         TJ.output.decTreeDepth();
     }
@@ -564,7 +566,7 @@ public final class ParserAndTranslator {
         TJ.output.printSymbol(NTwhileStmt);
         TJ.output.incTreeDepth();
 
-        /* ???????? */
+        /* ???????? */                                           //593
 
         TJ.output.decTreeDepth();
     }
@@ -581,7 +583,7 @@ public final class ParserAndTranslator {
         switch (getCurrentToken()) {
 
             /*
-             * ????????
+             * ????????                                                     610
              * 
              * default: throw new
              * SourceFileErrorException("print() or println() expected, not "
@@ -597,7 +599,7 @@ public final class ParserAndTranslator {
         TJ.output.printSymbol(NTprintArgument);
         TJ.output.incTreeDepth();
 
-        /* ???????? */
+        /* ???????? */                                          //627
 
         TJ.output.decTreeDepth();
     }
@@ -679,7 +681,7 @@ public final class ParserAndTranslator {
 
         switch (getCurrentToken()) {
 
-            /* ???????? */
+            /* ???????? */                          //723
 
             case IDENT:
                 String identName = LexicalAnalyzer.getCurrentSpelling();

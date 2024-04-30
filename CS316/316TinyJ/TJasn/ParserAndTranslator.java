@@ -1,3 +1,5 @@
+//Mingwei Zhang
+
 package TJasn;
 
 import static TJlexer.LexicalAnalyzer.getCurrentToken;
@@ -472,8 +474,12 @@ public final class ParserAndTranslator {
 
             if (t instanceof LocalVariableRec) {
                 /* ???????? */                          //492
+                new PUSHLOCADDRinstr(t.offset);
+                //////////////
             } else {
                 /* ???????? */                          //495
+                new PUSHSTATADDRinstr(t.offset);
+                //////////////
             }
 
             int dim = 0;
@@ -487,10 +493,14 @@ public final class ParserAndTranslator {
                 dim++;
             }                                               //DO NOT COPY OVER  507
 
-            if (dim > t.dimensionCount)
-                throw new SourceFileErrorException("Unexpected index(es)");
+            if (dim > t.dimensionCount) throw new SourceFileErrorException("Unexpected index(es)");
 
             /* ???????? */                                      // line 511 copy 3 statements
+            accept(BECOMES);
+            expr3();
+            new ADDTOPTRinstr();
+            accept(SEMICOLON);
+            //////////////
 
         }                                                       //DO NOT COPY OVER  513
 
@@ -527,6 +537,18 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */                          // 549
+        accept(LPAREN);
+        if (getCurrentToken() != RPAREN) {
+            expr3();
+            new PASSPARAMinstr();
+            while (getCurrentToken() == COMMA) {
+                nextToken();
+                expr3();
+                new PASSPARAMinstr();
+            }
+        }
+        accept(RPAREN);
+        //////////////
 
         TJ.output.decTreeDepth();
     }
@@ -565,6 +587,16 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */                                           //593
+        int a = Instruction.nextCodeAddress();
+        accept(WHILE);
+        accept(LPAREN);
+        expr7();
+        accept(RPAREN);
+        JUMPONFALSEinstr jInstr = new JUMPONFALSEinstr(Instruction.OPERAND_NOT_YET_KNOWN);
+        statement();
+        new JUMPinstr(a);
+        jInstr.fixUpOperand(Instruction.getNextCodeAddress());
+        //////////////
 
         TJ.output.decTreeDepth();
     }
@@ -587,9 +619,28 @@ public final class ParserAndTranslator {
              * SourceFileErrorException("print() or println() expected, not "
              * + getCurrentToken().symbolRepresentationForOutputFile);
              */
-
+            case PRINT:
+                nextToken();
+                accept(LPAREN);
+                printArgument();
+                accept(RPAREN);
+                accept(SEMICOLON);
+                break;
+            case PRINTLN:
+                nextToken();
+                accept(LPAREN);
+                if (getCurrentToken() != RPAREN) {
+                    printArgument();
+                }
+                accept(RPAREN);
+                accept(SEMICOLON);
+                new WRITELNOPinstr();
+                break;
+            default:
+                throw new SourceFileErrorException("print() or println() expected, not " + getCurrentToken().symbolRepresentationForOutputFile);
+                //////////////
         }
-
+        
         TJ.output.decTreeDepth();
     }
 
@@ -598,6 +649,15 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */                                          //627
+        if (getCurrentToken() == CHARSTRING)
+        {
+            new WRITESTRINGinstr(LexicalAnalyzer.getStartOfString(), LexicalAnalyzer.getEndOfString()); 
+            nextToken();
+        }else{
+            expr3();
+            new WRITEINTinstr();
+        }
+        //////////////
 
         TJ.output.decTreeDepth();
     }
@@ -607,6 +667,14 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        expr6();
+        while(getCurrentToken() == OR)
+        {
+            nextToken();
+            expr6();
+            new ORinstr();
+        }
+        //////////////
 
         TJ.output.decTreeDepth();
     }
@@ -616,6 +684,14 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        expr5();
+        while(getCurrentToken() == AND)
+        {
+            nextToken();
+            expr5();
+            new ANDinstr();
+        }
+        //////////////
 
         TJ.output.decTreeDepth();
     }
@@ -625,6 +701,16 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        expr4();
+        while(getCurrentToken() == EQ || getCurrentToken() == NE)
+        {
+            Symbols op = getCurrentToken();
+            nextToken();
+            expr4();
+            if (op == EQ) new EQinstr(); 
+            else new NEinstr();
+        }
+        //////////////
 
         TJ.output.decTreeDepth();
     }
@@ -634,6 +720,23 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        expr3();
+        switch(getCurrentToken())
+        {
+            case GT:
+            case LT:
+            case GE:
+            case LE:
+                Symbols op = getCurrentToken(); 
+                nextToken();
+                expr3();
+                if (op == GT) new GTinstr(); 
+                else if (op == LT) new LTinstr(); 
+                else if (op == GE) new GEinstr(); 
+                else new LEinstr();
+                break;
+        }
+        //////////////
 
         TJ.output.decTreeDepth();
     }
@@ -643,6 +746,16 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */
+        expr2();
+        while(getCurrentToken() == PLUS || getCurrentToken() == MINUS)
+        {
+            Symbols op = getCurrentToken(); 
+            nextToken();
+            expr2();
+            if (op == PLUS) new ADDinstr(); 
+            else new SUBinstr();
+        }
+        //////////////
 
         TJ.output.decTreeDepth();
     }

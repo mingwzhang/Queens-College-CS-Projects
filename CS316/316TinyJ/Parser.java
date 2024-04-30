@@ -398,7 +398,6 @@ public final class Parser {
         TJ.output.decTreeDepth();
     }
 
-
     private static void expr7() throws SourceFileErrorException {
         TJ.output.printSymbol(NTexpr7);
         TJ.output.incTreeDepth();
