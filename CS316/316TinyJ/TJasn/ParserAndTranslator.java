@@ -498,7 +498,7 @@ public final class ParserAndTranslator {
             /* ???????? */                                      // line 511 copy 3 statements
             accept(BECOMES);
             expr3();
-            new ADDTOPTRinstr();
+            new SAVETOADDRinstr();
             accept(SEMICOLON);
             //////////////
 
@@ -587,7 +587,7 @@ public final class ParserAndTranslator {
         TJ.output.incTreeDepth();
 
         /* ???????? */                                           //593
-        int a = Instruction.nextCodeAddress();
+        int a = Instruction.getNextCodeAddress();
         accept(WHILE);
         accept(LPAREN);
         expr7();
@@ -636,9 +636,11 @@ public final class ParserAndTranslator {
                 accept(SEMICOLON);
                 new WRITELNOPinstr();
                 break;
+                //////////////
+
             default:
                 throw new SourceFileErrorException("print() or println() expected, not " + getCurrentToken().symbolRepresentationForOutputFile);
-                //////////////
+                
         }
         
         TJ.output.decTreeDepth();
@@ -651,7 +653,7 @@ public final class ParserAndTranslator {
         /* ???????? */                                          //627
         if (getCurrentToken() == CHARSTRING)
         {
-            new WRITESTRINGinstr(LexicalAnalyzer.getStartOfString(), LexicalAnalyzer.getEndOfString()); 
+            new WRITESTRINGinstr(LexicalAnalyzer.getStartOfString(), LexicalAnalyzer.getEndOfString());
             nextToken();
         }else{
             expr3();
@@ -793,6 +795,43 @@ public final class ParserAndTranslator {
         switch (getCurrentToken()) {
 
             /* ???????? */                          //723
+            case LPAREN:
+                nextToken();
+                expr7();
+                accept(RPAREN);                    
+                break;
+            case PLUS:
+                nextToken();
+                expr1();
+                break;
+            case MINUS:
+                nextToken();
+                expr1();
+                new CHANGESIGNinstr();
+                break;
+            case NOT:
+                nextToken();
+                expr1();
+                new NOTinstr();
+                break;
+            case UNSIGNEDINT:
+                new PUSHNUMinstr(LexicalAnalyzer.getCurrentValue());
+                nextToken();
+                break;
+            case NEW:
+                nextToken();
+                accept(INT);
+                accept(LBRACKET);
+                expr3();
+                new HEAPALLOCinstr();
+                accept(RBRACKET);
+                while(getCurrentToken() == LBRACKET)
+                {
+                    nextToken();
+                    accept(RBRACKET);
+                }
+                break;
+            //////////////
 
             case IDENT:
                 String identName = LexicalAnalyzer.getCurrentSpelling();
@@ -860,3 +899,34 @@ public final class ParserAndTranslator {
     }
 
 }
+
+
+
+/*
+1:
+2:    class CS316ex0 {
+3:
+4:      static int x = 17, y = -3, z = (x + y) * (x - y) / (x*x - y*y);
+5:
+6:      public static void main (String argv[])
+7:      {
+8:        System.out.print("292 / 8 = ");
+9:        System.out.println((x*x - y) / (x-y*y));
+10:       System.out.print("289 % 9 = ");
+11:       System.out.println(x * y / y * x % (y * y));
+12:       System.out.print("1 = ");
+13:       System.out.println(z);
+14:       System.out.print("17 = ");
+15:       System.out.println(x);
+16:       System.out.print("-3 = ");
+17:       System.out.println(y);
+18:       System.out.print("-17 = ");
+19:       System.out.println(-x);
+20:       System.out.print("-3 = ");
+21:       System.out.println(-3);
+22:       System.out.println("How did I do?");
+23:     }
+24:   }
+25:
+26:
+*/
