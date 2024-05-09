@@ -473,11 +473,11 @@ public final class ParserAndTranslator {
                 throw new SourceFileErrorException("int variable expected");
 
             if (t instanceof LocalVariableRec) {
-                /* ???????? */                          //492
+                /* ???????? */                                //492
                 new PUSHLOCADDRinstr(t.offset);
                 //////////////
             } else {
-                /* ???????? */                          //495
+                /* ???????? */                                //495
                 new PUSHSTATADDRinstr(t.offset);
                 //////////////
             }
@@ -626,6 +626,7 @@ public final class ParserAndTranslator {
                 accept(RPAREN);
                 accept(SEMICOLON);
                 break;
+                
             case PRINTLN:
                 nextToken();
                 accept(LPAREN);
@@ -739,7 +740,6 @@ public final class ParserAndTranslator {
                 break;
         }
         //////////////
-
         TJ.output.decTreeDepth();
     }
 
@@ -897,36 +897,4 @@ public final class ParserAndTranslator {
 
         TJ.output.decTreeDepth();
     }
-
 }
-
-
-
-/*
-1:
-2:    class CS316ex0 {
-3:
-4:      static int x = 17, y = -3, z = (x + y) * (x - y) / (x*x - y*y);
-5:
-6:      public static void main (String argv[])
-7:      {
-8:        System.out.print("292 / 8 = ");
-9:        System.out.println((x*x - y) / (x-y*y));
-10:       System.out.print("289 % 9 = ");
-11:       System.out.println(x * y / y * x % (y * y));
-12:       System.out.print("1 = ");
-13:       System.out.println(z);
-14:       System.out.print("17 = ");
-15:       System.out.println(x);
-16:       System.out.print("-3 = ");
-17:       System.out.println(y);
-18:       System.out.print("-17 = ");
-19:       System.out.println(-x);
-20:       System.out.print("-3 = ");
-21:       System.out.println(-3);
-22:       System.out.println("How did I do?");
-23:     }
-24:   }
-25:
-26:
-*/
