@@ -1,3 +1,5 @@
+//Mingwei Zhang
+
 package TJasn.virtualMachine;
 
 import static TJasn.virtualMachine.CodeInterpreter.*;
@@ -8,7 +10,6 @@ public class MULinstr extends ZeroOperandInstruction {
 
   void execute () throws VirtualMachineHaltException
   {
-      /* ???????? */
       EXPRSTACK[--ESP-1] *= EXPRSTACK[ESP]; 
 
   }
