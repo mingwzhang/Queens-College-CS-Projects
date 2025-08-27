@@ -1,0 +1,9 @@
+q0 0 0 R q0
+q0 1 1 R q1
+q0 _ _ R accept
+q1 0 0 R q2
+q1 1 1 R q0
+q2 0 0 R q1
+q2 1 1 R q2
+
+# Source: https://turingmachine.io — Checks divisibility by 3

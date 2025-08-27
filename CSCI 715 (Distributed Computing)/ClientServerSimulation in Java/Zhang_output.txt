@@ -1,0 +1,404 @@
+Server Terminal Output:
+
+PS D:\Github Storage\CSCI_Spring_2025\CSCI 715 Summer\Project2\P2> javac Zhang_server/*.java Zhang_client/*.java
+PS D:\Github Storage\CSCI_Spring_2025\CSCI 715 Summer\Project2\P2> java Zhang_server._MainServer
+Main server started on port 3000
+Simulation parameters:
+  Classroom capacity: 15
+  Cafeteria tables: 4 with 3 seats each
+Waiting for client connections...      
+Accepted connection from /127.0.0.1:61297
+Accepted connection from /127.0.0.1:61298
+Accepted connection from /127.0.0.1:61299
+Accepted connection from /127.0.0.1:61307
+Accepted connection from /127.0.0.1:61292
+Accepted connection from /127.0.0.1:61304
+Accepted connection from /127.0.0.1:61291
+Accepted connection from /127.0.0.1:61293
+Accepted connection from /127.0.0.1:61290
+Client handler started for: /127.0.0.1:61299
+Client handler started for: /127.0.0.1:61297
+Client handler started for: /127.0.0.1:61304
+Client handler started for: /127.0.0.1:61292
+Client handler started for: /127.0.0.1:61298
+Client handler started for: /127.0.0.1:61307
+Client handler started for: /127.0.0.1:61290
+Received request: Student-15 0
+Client handler started for: /127.0.0.1:61293
+Accepted connection from /127.0.0.1:61308
+Received request: Timer-0 0
+Client handler started for: /127.0.0.1:61291
+Accepted connection from /127.0.0.1:61294
+Received request: Student-5 0
+Received request: Student-18 0
+Received request: Student-16 0
+Received request: Professor-0 0
+Received request: Student-0 0
+Received request: Student-11 0
+Client handler started for: /127.0.0.1:61294
+Accepted connection from /127.0.0.1:61295
+Client handler started for: /127.0.0.1:61308
+Received request: Student-19 0
+Received request: Student-8 0
+Client handler started for: /127.0.0.1:61295
+Accepted connection from /127.0.0.1:61296
+Received request: Student-7 0
+Received request: Student-10 0
+Accepted connection from /127.0.0.1:61303
+Client handler started for: /127.0.0.1:61296
+Accepted connection from /127.0.0.1:61305
+Client handler started for: /127.0.0.1:61303
+Received request: Student-3 0
+Received request: Student-1 0
+Accepted connection from /127.0.0.1:61300
+Client handler started for: /127.0.0.1:61305
+Accepted connection from /127.0.0.1:61302
+Client handler started for: /127.0.0.1:61300
+Received request: Student-9 0
+Accepted connection from /127.0.0.1:61301
+Received request: Student-17 0
+Client handler started for: /127.0.0.1:61302
+Accepted connection from /127.0.0.1:61306
+Client handler started for: /127.0.0.1:61301
+Received request: Student-13 0
+Received request: Student-14 0
+Accepted connection from /127.0.0.1:61311
+Client handler started for: /127.0.0.1:61306
+Accepted connection from /127.0.0.1:61309
+Client handler started for: /127.0.0.1:61311
+Received request: Student-4 0
+Accepted connection from /127.0.0.1:61310
+Client handler started for: /127.0.0.1:61309
+Received request: Student-12 0
+Received request: Student-6 0
+Client handler started for: /127.0.0.1:61310
+Received request: Student-2 0
+[4714] Thread-10: Grabbed a seat for class 1 (1/15).
+[4716] Thread-40: Grabbed a seat for class 1 (2/15).     
+[4717] Thread-38: Grabbed a seat for class 1 (3/15).     
+[4717] Thread-37: Grabbed a seat for class 1 (4/15).     
+[4717] Thread-34: Grabbed a seat for class 1 (5/15).     
+[4717] Thread-32: Grabbed a seat for class 1 (6/15).     
+[4718] Thread-30: Grabbed a seat for class 1 (7/15).     
+[4718] Thread-29: Grabbed a seat for class 1 (8/15).     
+[4718] Thread-26: Grabbed a seat for class 1 (9/15).     
+[4719] Thread-25: Grabbed a seat for class 1 (10/15).    
+[4719] Thread-22: Grabbed a seat for class 1 (11/15).    
+[4719] Thread-12: Grabbed a seat for class 1 (12/15).    
+[4720] Thread-19: Grabbed a seat for class 1 (13/15).    
+[4720] Thread-11: Grabbed a seat for class 1 (14/15).    
+[4720] Thread-8: Grabbed a seat for class 1 (15/15).     
+[34] Student-5: Class 1 missed. Reason: Class 1 is full
+[77] Student-0: Class 1 missed. Reason: Class 1 is full
+Received request: Student-5 1
+[4811] Thread-7: Goes to Cafeteria table 1, seat 1 (Seats left: 11).
+[119] Student-18: Class 1 missed. Reason: Class 1 is fullReceived request: Student-0 1
+[4843] Thread-6: Goes to Cafeteria table 1, seat 2 (Seats left: 10).
+[175] Student-15: Class 1 missed. Reason: Class 1 is fullReceived request: Student-18 1
+[4891] Thread-3: Goes to Cafeteria table 1, seat 3 (Seats left: 9).
+[207] Student-16: Class 1 missed. Reason: Class 1 is fullReceived request: Student-15 1
+[4938] Thread-4: Goes to Cafeteria table 2, seat 1 (Seats left: 8).
+Received request: Student-16 1
+[4971] Thread-2: Goes to Cafeteria table 2, seat 2 (Seats left: 7).
+[5715] Timer: First class is starting.
+[5738] Professor-1: Professor Arrived. Class 1 starts.
+[1031] Student-8: Now attending class 1.
+[1031] Student-2: Now attending class 1.
+[1031] Student-10: Now attending class 1.
+[1031] Student-14: Now attending class 1.
+[1031] Student-11: Now attending class 1.
+[1031] Student-7: Now attending class 1.
+[1031] Student-1: Now attending class 1.
+[1031] Student-19: Now attending class 1.
+[1031] Student-12: Now attending class 1.
+[1031] Student-3: Now attending class 1.
+[1031] Student-9: Now attending class 1.
+[1031] Student-17: Now attending class 1.
+[1031] Student-13: Now attending class 1.
+[1031] Student-6: Now attending class 1.
+[1031] Student-4: Now attending class 1.
+[7727] Timer: First class ends.
+Received request: Student-8 1
+Received request: Student-17 1
+Received request: Student-3 1
+Received request: Student-6 1
+Received request: Student-9 1
+[7787] Thread-11: Goes to Cafeteria table 2, seat 3 (Seats left: 6).
+Received request: Student-4 1
+[7788] Thread-26: Goes to Cafeteria table 3, seat 1 (Seats left: 5).
+[7788] Thread-38: Goes to Cafeteria table 3, seat 2 (Seats left: 4).
+[7788] Thread-22: Goes to Cafeteria table 3, seat 3 (Seats left: 3).
+[7789] Thread-29: Goes to Cafeteria table 4, seat 1 (Seats left: 2).
+[7789] Thread-34: Goes to Cafeteria table 4, seat 2 (Seats left: 1).
+Received request: Timer-0 1
+Received request: Student-1 1
+Received request: Student-19 1
+Received request: Student-11 1
+Received request: Student-2 1
+Received request: Student-10 1
+Received request: Student-14 1
+Received request: Student-12 1
+Received request: Student-13 1
+Received request: Student-7 1
+[7799] Thread-25: Goes to Cafeteria table 4, seat 3 (Seats left: 0).
+[3092] Student-13: Cafeteria full. Leaving school.       
+[3092] Student-19: Cafeteria full. Leaving school.       
+[3092] Student-11: Cafeteria full. Leaving school.       
+[3092] Student-2: Cafeteria full. Leaving school.        
+[3092] Student-14: Cafeteria full. Leaving school.       
+[3092] Student-7: Cafeteria full. Leaving school.        
+[3092] Student-10: Cafeteria full. Leaving school.       
+[3092] Student-12: Cafeteria full. Leaving school.       
+Received request: Student-2 2
+Received request: Student-7 2
+Received request: Student-14 2
+Received request: Student-19 2
+Received request: Student-10 2
+[7855] Thread-40: Grabbed a seat for class 2 (1/15).     
+[7855] Thread-12: Grabbed a seat for class 2 (2/15).     
+Received request: Student-11 2
+Received request: Student-13 2
+[7856] Thread-8: Grabbed a seat for class 2 (3/15).      
+[7856] Thread-32: Grabbed a seat for class 2 (4/15).     
+[7856] Thread-19: Grabbed a seat for class 2 (5/15).     
+[7856] Thread-30: Grabbed a seat for class 2 (6/15).     
+[7857] Thread-10: Grabbed a seat for class 2 (7/15).     
+Received request: Student-12 2
+[7863] Thread-37: Grabbed a seat for class 2 (8/15).     
+[9291] Timer: Break is up. Notifying cafeteria tables to 
+head to second class. Remaining students: 12
+[4591] Student-18: Leaving cafeteria table 1. Trying to enter class 2.
+[4591] Student-5: Leaving cafeteria table 1. Trying to enter class 2.
+[4591] Student-0: Leaving cafeteria table 1. Trying to enter class 2.
+Received request: Student-0 2
+Received request: Student-18 2
+[9351] Thread-6: Grabbed a seat for class 2 (9/15).      
+[9351] Thread-3: Grabbed a seat for class 2 (10/15).     
+Received request: Student-5 2
+[9352] Thread-7: Grabbed a seat for class 2 (11/15).     
+[4676] Student-16: Leaving cafeteria table 2. Trying to enter class 2.
+[4676] Student-15: Leaving cafeteria table 2. Trying to enter class 2.
+[4676] Student-8: Leaving cafeteria table 2. Trying to enter class 2.
+[4716] Student-6: Leaving cafeteria table 3. Trying to enter class 2.
+[4716] Student-9: Leaving cafeteria table 3. Trying to enter class 2.
+[4716] Student-3: Leaving cafeteria table 3. Trying to enter class 2.
+Received request: Student-8 2
+Received request: Student-16 2
+[9436] Thread-11: Grabbed a seat for class 2 (12/15).    
+[9436] Thread-2: Grabbed a seat for class 2 (13/15).     
+Received request: Student-15 2
+[9446] Thread-4: Grabbed a seat for class 2 (14/15).     
+[4751] Student-4: Leaving cafeteria table 4. Trying to enter class 2.
+[4751] Student-1: Leaving cafeteria table 4. Trying to enter class 2.
+[4751] Student-17: Leaving cafeteria table 4. Trying to enter class 2.
+Received request: Student-6 2
+[9475] Thread-38: Grabbed a seat for class 2 (15/15).    
+Received request: Student-3 2
+Received request: Student-9 2
+Received request: Student-1 2
+Received request: Student-4 2
+Received request: Student-17 2
+Received request: Timer-0 2
+[9518] Timer: 10 minutes befoe second class is starting  
+[4838] Student-9: Class 2 missed. Reason: Class 2 is fullReceived request: Student-9 3
+[4904] Student-3: Class 2 missed. Reason: Class 2 is full[4940] Student-1: Class 2 missed. Reason: Class 2 is full[4954] Student-4: Class 2 missed. Reason: Class 2 is fullReceived request: Student-3 3
+[4966] Student-17: Class 2 missed. Reason: Class 2 is full
+Received request: Student-1 3
+Received request: Student-4 3
+Received request: Student-17 3
+Received request: Professor-0 1
+[10144] Professor-1: Arrived. Class 2 starts.
+[5437] Student-7: Now attending class 2.
+[5437] Student-13: Now attending class 2.
+[5437] Student-14: Now attending class 2.
+[5437] Student-10: Now attending class 2.
+[5437] Student-12: Now attending class 2.
+[5437] Student-5: Now attending class 2.
+[5437] Student-18: Now attending class 2.
+[5437] Student-0: Now attending class 2.
+[5437] Student-8: Now attending class 2.
+[5437] Student-16: Now attending class 2.
+[5437] Student-6: Now attending class 2.
+[5437] Student-15: Now attending class 2.
+[5437] Student-19: Now attending class 2.
+[5437] Student-2: Now attending class 2.
+[5437] Student-11: Now attending class 2.
+[12028] Timer: Second class ends.
+[12036] Thread-9: All classes done, confirmed.
+[7328] Student-7: Leave class 2.
+[7328] Student-14: Leave class 2.
+[7328] Student-10: Leave class 2.
+[7328] Student-12: Leave class 2.
+[7328] Student-5: Leave class 2.
+[7328] Student-18: Leave class 2.
+[7328] Student-0: Leave class 2.
+[7328] Student-8: Leave class 2.
+[7328] Student-6: Leave class 2.
+[7328] Student-16: Leave class 2.
+[7328] Student-15: Leave class 2.
+[7328] Student-19: Leave class 2.
+[7328] Student-2: Leave class 2.
+[7328] Student-11: Leave class 2.
+[7328] Student-13: Leave class 2.
+Received request: Student-7 3
+Received request: Student-19 3
+Received request: Student-5 3
+Received request: Student-12 3
+Received request: Student-16 3
+Received request: Student-0 3
+Received request: Student-2 3
+Received request: Student-11 3
+Received request: Student-6 3
+Received request: Student-15 3
+Received request: Student-13 3
+Received request: Student-14 3
+Received request: Student-18 3
+Received request: Student-8 3
+Received request: Student-10 3
+Received request: Timer-0 3
+[13099] Timer: Office hours available.
+Received request: Professor-0 2
+[13206] Professor-1: Wait for students to get in line for office hour.
+[8528] Student-13: Decides to leave offce hour.
+[8529] Student-5: Decides to leave offce hour.
+[8531] Student-0: Decides to leave offce hour.
+[8556] Student-18: Decides to leave offce hour.
+[8559] Student-4: Decides to join office hour. Waiting in line.
+[8562] Student-9: Decides to leave offce hour.
+[8565] Student-8: Decides to join office hour. Waiting in line.
+Client connection closed
+[8580] Student-2: Decides to leave offce hour.
+Client connection closed
+Client connection closed
+Client connection closed
+[8596] Student-14: Decides to leave offce hour.
+[8596] Student-11: Decides to leave offce hour.
+[8599] Student-12: Decides to leave offce hour.
+Client connection closed
+Client connection closed
+Client connection closed
+Client connection closed
+[8625] Student-10: Decides to leave offce hour.
+[8628] Student-17: Decides to join office hour. Waiting in line.
+Client connection closed
+[8643] Student-7: Decides to leave offce hour.
+Client connection closed
+Client connection closed
+Client connection closed
+[8660] Student-19: Decides to leave offce hour.
+[13367] Professor-1: Finished waiting. Total students in 
+office hour line: 4
+[13367] Professor-1: Answering question for Student-8    
+[8675] Student-6: Decides to leave offce hour.
+[8676] Student-16: Decides to leave offce hour.
+Client connection closed
+Client connection closed
+[8701] Student-15: Decides to leave offce hour.
+Client connection closed
+[8705] Student-3: Decides to join office hour. Waiting in line.
+[8708] Student-1: Decides to leave offce hour.
+Client connection closed
+Client connection closed
+Client connection closed
+Client connection closed
+Client connection closed
+Client connection closed
+[13718] Professor-1: Answering question for Student-17
+[13926] Professor-1: Answering question for Student-4
+[14309] Professor-1: Answering question for Student-3
+[14614] Professor-1: All questions answered, office hours over.
+Client connection closed
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Client Terminal Output:
+
+PS D:\Github Storage\CSCI_Spring_2025\CSCI 715 Summer\Project2\P2> java Zhang_client._ClientLauncher
+Student-5 entered class1
+Student-0 entered class1
+Student-18 entered class1
+Student-15 entered class1
+Student-16 entered class1
+Student-3 entered class1
+Student-17 entered class1  
+Student-8 entered class1   
+Student-9 entered class1   
+Student-6 entered class1   
+Student-4 entered class1   
+Timer triggered Class1Event
+Student-13 entered class1  
+Student-12 entered class1  
+Student-10 entered class1  
+Student-2 entered class1   
+Student-7 entered class1
+Student-14 entered class1
+Student-11 entered class1
+Student-1 entered class1
+Student-19 entered class1
+ERROR in Student method 1: null
+ERROR in Student method 1: null
+ERROR in Student method 1: null
+ERROR in Student method 1: null
+ERROR in Student method 1: null
+ERROR in Student method 1: null
+ERROR in Student method 1: null
+ERROR in Student method 1: null
+Student-5 went to cafeteria
+Student-0 went to cafeteria
+Student-18 went to cafeteria
+Student-16 went to cafeteria
+Student-8 went to cafeteria
+Student-15 went to cafeteria
+Student-6 went to cafeteria
+Student-3 went to cafeteria
+Student-9 went to cafeteria
+Student-4 went to cafeteria
+Student-1 went to cafeteria
+Student-17 went to cafeteria
+Timer triggered CafeteriaEvent
+Student-9 entered class2
+Student-3 entered class2
+Student-1 entered class2
+Student-4 entered class2
+Student-17 entered class2
+Professor started class1
+Student-7 entered class2
+Student-12 entered class2
+Student-10 entered class2
+Student-14 entered class2
+Student-0 entered class2
+Student-18 entered class2
+Student-5 entered class2
+Student-16 entered class2
+Student-6 entered class2
+Student-2 entered class2
+Student-8 entered class2
+Student-13 entered class2
+Student-11 entered class2
+Student-19 entered class2
+Student-15 entered class2
+Timer triggered Class2Event
+Professor started class2
+Timer triggered OfficeHourEvent
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+Student-4 joined office hour queue
+ERROR in Student method 3: null
+Student-8 joined office hour queue
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+Student-17 joined office hour queue
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+ERROR in Student method 3: null
+Student-3 joined office hour queue
+ERROR in Student method 3: null
+ERROR in Professor method 2: current thread is not owner

@@ -1,0 +1,3 @@
+Estimated Coding Hours: 13
+
+(Research Turing Machine data inputs, designing the simulator, writing and testing the Java code, debugging edge cases, and polishing comments.)

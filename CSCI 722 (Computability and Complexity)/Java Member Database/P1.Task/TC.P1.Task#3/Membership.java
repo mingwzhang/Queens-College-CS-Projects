@@ -1,0 +1,115 @@
+//Mingwei Zhang (23510667)
+
+import java.io.*;
+import java.util.*;
+
+// Example input in cmd command:
+// java Membership -firstname=Steve -lastname=Smith -id=1010101010 -age=33 -NewYork=false -outputFile=_output.txt -inputFile=_inputMemberDuplicate.txt
+
+public class Membership {
+    // Hashtable to store members (ID as key, Member object as value)
+    private static Hashtable<String, Member> members = new Hashtable<>();
+
+    public static void main(String[] args) {
+        String inputFile = null;
+        String outputFile = null;
+        Member newMember = null;
+        boolean isDuplicate = false;
+
+        // Loop through command-line arguments and assign values
+        for (String arg : args) {
+            if (arg.startsWith("-inputFile=")) inputFile = arg.split("=")[1];
+            else if (arg.startsWith("-outputFile=")) outputFile = arg.split("=")[1];
+            else if (arg.startsWith("-firstname=")) newMember = new Member(arg.split("=")[1], "", "", 0, false);
+            else if (arg.startsWith("-lastname=")) newMember.lastName = arg.split("=")[1];
+            else if (arg.startsWith("-id=")) newMember.id = arg.split("=")[1];
+            else if (arg.startsWith("-age=")) newMember.age = Integer.parseInt(arg.split("=")[1]);
+            else if (arg.startsWith("-NewYork=")) newMember.livesInNewYork = Boolean.parseBoolean(arg.split("=")[1]);
+        }
+
+        // Make sure an input file was given
+        if (inputFile == null) {
+            System.out.println("Error: No input file specified.");
+            return;
+        }
+
+        // Check if the input file actually exists
+        File file = new File(inputFile);
+        if (!file.exists()) {
+            System.out.println("Error: Input file " + inputFile + " not found. Can't create output file.");
+            return;
+        }
+
+        // Read the input file and store data in the hashtable
+        readFile(inputFile);
+
+        // Make sure we got all the necessary details for the new member
+        if (newMember == null || newMember.id == null) {
+            System.out.println("Error: Incomplete member details.");
+            return;
+        }
+
+        // Check if the member ID already exists
+        if (members.containsKey(newMember.id)) {
+            System.out.println("Error: Member with ID " + newMember.id + " already exists.");
+            isDuplicate = true; // Mark that a duplicate was found
+        } else {
+            // Add the new member since the ID is unique
+            members.put(newMember.id, newMember);
+        }
+        
+        // If an output file was specified, write updated data to it
+        if (outputFile != null) {
+            createOutputFile(outputFile, isDuplicate, newMember);
+        }
+    }
+
+    /**
+     * Reads an input file and adds members to the hashtable.
+     * @param fileName The name of the input file.
+     */
+    private static void readFile(String fileName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split("\\|"); // Split by '|'
+                if (data.length == 5) {
+                    String firstName = data[0].trim();
+                    String lastName = data[1].trim();
+                    String id = data[2].trim();
+                    int age = Integer.parseInt(data[3].trim());
+                    boolean livesInNewYork = Boolean.parseBoolean(data[4].trim());
+                    
+                    members.put(id, new Member(firstName, lastName, id, age, livesInNewYork));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Saves all members to an output file. If a duplicate ID was found, it adds an error message to the file.
+     * @param fileName The name of the output file.
+     * @param isDuplicate True if a duplicate ID was found, false otherwise.
+     * @param newMember The new member being added (if unique).
+     */
+    private static void createOutputFile(String fileName, boolean isDuplicate, Member newMember) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+            for (Member member : members.values()) {
+                bw.write(member.firstName + "|" + member.lastName + "|" + member.id + "|" + member.age + "|" + member.livesInNewYork);
+                bw.newLine();
+            }
+            
+            // If a duplicate was found, add an error message to the file
+            if (isDuplicate) {
+                bw.write("Error: Member with ID " + newMember.id + " already exists.");
+                bw.newLine();
+            }
+            
+            System.out.println("Output file " + fileName + " created with updated member list.");
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+}

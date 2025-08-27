@@ -1,0 +1,17 @@
+Halting Report for TC.P3.Task#8
+(Inputs from TC.P3.Task#6)
+
+1. binary increment
+Input: 1011
+Halted: true
+Explanation: The machine reached a state with no valid transition after writing the final 1 and moving left to the 'done' state.
+
+2. divisible by 3
+Input: 1001
+Halted: true
+Explanation: The machine ended in the 'accept' state after reading all input, and no further transitions existed.
+
+3. infinite 0/1 pattern
+Input: _
+Halted: false
+Explanation: This machine loops infinitely writing alternating 0s and 1s with no halting state. Execution was manually stopped after 1000 steps using a max step limit in the simulator.

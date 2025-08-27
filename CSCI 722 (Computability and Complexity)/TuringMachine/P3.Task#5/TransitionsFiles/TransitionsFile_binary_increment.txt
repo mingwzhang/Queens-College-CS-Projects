@@ -1,0 +1,8 @@
+right 1 1 R right
+right 0 0 R right
+right _ _ L carry
+carry 1 0 L carry
+carry 0 1 L done
+carry _ _ L done
+
+# Source: https://turingmachine.io — Adds 1 to a binary number

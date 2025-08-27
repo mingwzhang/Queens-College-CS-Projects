@@ -1,0 +1,6 @@
+b _ 0 R c 
+c _ _ R e 
+e _ 1 R f 
+f _ _ R b      
+
+# Source: https://turingmachine.io — Generates the infinite 0 1 0 1 … pattern

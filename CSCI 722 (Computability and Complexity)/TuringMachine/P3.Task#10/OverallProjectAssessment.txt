@@ -1,0 +1,21 @@
+Overall Project Assessment – TC.P3.Task#10
+
+What was accomplished:
+- I wrote a working Turing Machine simulator in Java that can read transitions and tape input from external .txt files.
+- The simulator correctly performs state transitions, updates the tape, moves the head, and keeps track of the current state.
+- It can handle different Turing Machine tasks, including binary increment, divisibility by 3, and a repeating 0/1 pattern machine.
+- I used a transition table stored in a HashMap to match the current state and symbol with the correct transition.
+- The simulator outputs the final tape contents, whether the machine halted, and the number of steps used.
+- I used a maximum step count to prevent infinite loops, which was particularly helpful for non-halting machines.
+
+What was not accomplished:
+- The file names and paths for inputs (such as `TransitionsFile.txt` and `InitialTapeInput.txt`) are hardcoded into the Java code. This means if someone wants to test with a different file, they either need to modify the content of the existing files or manually change the path names inside the code. A more flexible version would accept file names as command-line arguments.
+- The output of the "repeat 0 1" Turing Machine appears corrupted when viewed in certain terminals or default text editors, showing unreadable symbols. However, the same output displays correctly in VS Code, confirming that the simulation logic itself works.
+- The system does not yet fully validate malformed transition lines or provide detailed error messages if a transition is missing. It simply halts.
+
+What might be causing these issues:
+- The hardcoded paths were chosen for simplicity and to ensure consistent file testing. However, they reduce usability in dynamic environments.
+- The output display issue is likely caused by character encoding mismatches (e.g., interpreting ASCII or UTF-8 output as UTF-16) in some environments. The “repeat 0 1” machine also starts with a blank symbol, which may have contributed to confusion during output rendering. Using UTF-8 with BOM or opening the file in an encoding-aware editor (like VS Code) resolves this.
+- The transition validation is minimal right now since I skip malformed lines but don’t give feedback. Adding more robust error handling and user feedback would improve this.
+
+Overall, I learned a lot about how Turing Machines work, how to implement state-based systems in Java, and how to structure simulations with file I/O. Most of the functionality works as intended, and I was able to test the machines effectively.

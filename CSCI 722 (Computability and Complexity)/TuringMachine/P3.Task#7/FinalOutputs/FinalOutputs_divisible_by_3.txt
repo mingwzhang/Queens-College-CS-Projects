@@ -1,0 +1,3 @@
+1011_
+Halted: true
+Steps used: 4
