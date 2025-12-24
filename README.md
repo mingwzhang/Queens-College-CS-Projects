@@ -1,3 +1,11 @@
+# Queens College Computer Science Projects
+
+This repository contains selected projects and assignments completed as part of the Computer Science curriculum at Queens College, City University of New York.
+
+Each folder corresponds to a specific course and includes programming assignments, course projects, and related implementations developed throughout the semester. The contents emphasize applied implementation, system design, and problem-solving rather than lecture notes alone.
+
+---
+
 ## Courses Included
 
 ### CSCI 211 – Object-Oriented Programming in C++
@@ -42,3 +50,11 @@ Provides an advanced study of computability theory and computational complexity.
 
 ### CSCI 780 – Machine Learning
 Covers core machine learning concepts with an emphasis on practical implementation and evaluation. Topics include supervised learning, neural networks, optimization, and deep learning, with applied projects involving real-world datasets.
+
+---
+
+## Notes
+
+- Projects reflect academic coursework and may prioritize clarity and correctness over production-level optimization.
+- Some folders were updated after course completion to improve organization, documentation, or reproducibility.
+- This repository is intended for educational and reference purposes.
