@@ -1,20 +1,44 @@
-# Queens College CS Projects
+## Courses Included
 
-This repository contains projects and assignments from various computer science courses at Queens College. Each folder represents a different course with its corresponding projects and assignments.
+### CSCI 211 – Object-Oriented Programming in C++
+Introduces object-oriented programming concepts using C++. Topics include classes and objects, inheritance, polymorphism, encapsulation, and basic data structures, with an emphasis on program design and correctness.
 
-## Courses
+---
 
-### CS211: Object-Oriented Programming in C++
-This course covers the principles of object-oriented programming using C++. Topics include classes, objects, inheritance, polymorphism, and more.
+### CSCI 240 – Computer Organization and Assembly Language
+Examines the relationship between hardware and software through low-level programming. Topics include digital logic, instruction sets, assembly language programming, CPU architecture, and memory organization.
 
-### CS240: Computer Organization and Assembly Language
-This course introduces the fundamentals of computer organization and assembly language programming. Topics include digital logic, instruction sets, assembly language, and computer architecture.
+---
 
-### CS316: Principles of Programming Languages
-This course explores the concepts and principles underlying modern programming languages. Topics include syntax, semantics, type systems, and language paradigms.
+### CSCI 316 – Principles of Programming Languages
+Explores the foundational concepts behind modern programming languages. Topics include syntax and semantics, type systems, language paradigms, and comparative analysis of language design choices.
 
-### CS320: Theory of Computation
-This course delves into the theoretical aspects of computer science. Topics include formal languages, automata theory, computability, and complexity theory.
+---
 
-### CS340: Operating Systems Principles
-This course covers the fundamental principles of operating systems. Topics include process management, memory management, file systems, and concurrency.
+### CSCI 320 – Theory of Computation
+Covers the theoretical foundations of computer science. Topics include formal languages, finite automata, Turing machines, computability, and computational complexity.
+
+---
+
+### CSCI 340 – Operating Systems Principles
+Focuses on the design and implementation of operating systems. Topics include process and thread management, synchronization, memory management, file systems, and concurrency.
+
+---
+
+### CSCI 700 – Algorithms I
+Introduces advanced algorithm design and analysis techniques. Topics include asymptotic analysis, divide-and-conquer strategies, greedy algorithms, dynamic programming, and graph algorithms.
+
+---
+
+### CSCI 715 – Distributed Computing
+Examines the principles of distributed systems. Topics include concurrency, synchronization, client–server architectures, distributed coordination, consistency models, and fault tolerance.
+
+---
+
+### CSCI 722 – Computability and Complexity
+Provides an advanced study of computability theory and computational complexity. Topics include reductions, decidability, NP-completeness, and theoretical limits of computation.
+
+---
+
+### CSCI 780 – Machine Learning
+Covers core machine learning concepts with an emphasis on practical implementation and evaluation. Topics include supervised learning, neural networks, optimization, and deep learning, with applied projects involving real-world datasets.
