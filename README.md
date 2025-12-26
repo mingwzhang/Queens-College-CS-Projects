@@ -48,6 +48,11 @@ Provides an advanced study of computability theory and computational complexity.
 
 ---
 
+### CSCI 780 – Cloud Computing
+Covers the design and operation of cloud computing systems. Topics include virtualization, containers, distributed storage, data center networking, resource scheduling, fault tolerance, and scalable system design, with hands-on projects implementing cloud infrastructure components.
+
+---
+
 ### CSCI 780 – Machine Learning
 Covers core machine learning concepts with an emphasis on practical implementation and evaluation. Topics include supervised learning, neural networks, optimization, and deep learning, with applied projects involving real-world datasets.
 
